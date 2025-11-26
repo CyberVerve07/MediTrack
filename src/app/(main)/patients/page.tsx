@@ -109,7 +109,7 @@ export default function PatientsPage() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem asChild>
+                          <DropdownMenuItem>
                             <Link href={`/patients/${patient.id}`}>View Details</Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem>Edit</DropdownMenuItem>
