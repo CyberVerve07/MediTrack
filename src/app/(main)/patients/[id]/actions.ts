@@ -1,7 +1,9 @@
 'use server';
 
 import { generatePatientImprovementNotes } from '@/ai/flows/generate-patient-improvement-notes';
+import { addPatient as addPatientData } from '@/lib/data';
 import type { Patient, VitalSign, Medication, TestReport } from '@/lib/types';
+import { revalidatePath } from 'next/cache';
 
 export async function generateNotesForPatient(
   patient: Patient,
@@ -41,4 +43,15 @@ export async function generateNotesForPatient(
     console.error('AI note generation failed:', error);
     return { error: 'An error occurred while generating notes with AI.' };
   }
+}
+
+export async function addPatient(formData: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId'>) {
+    try {
+        addPatientData(formData);
+        revalidatePath('/patients');
+        return { success: true }
+    } catch (error) {
+        console.error('Failed to add patient:', error);
+        return { success: false, error: 'Failed to add patient.' }
+    }
 }

@@ -23,6 +23,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { NewPatientForm } from './_components/new-patient-form';
 
 function getPatientAge(dateOfBirth: string) {
   return differenceInYears(new Date(), new Date(dateOfBirth));
@@ -33,10 +34,12 @@ export default function PatientsPage() {
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold tracking-tight">Patients</h1>
-        <Button>
-          <PlusCircle className="mr-2 h-4 w-4" />
-          New Patient
-        </Button>
+        <NewPatientForm>
+          <Button>
+            <PlusCircle className="mr-2 h-4 w-4" />
+            New Patient
+          </Button>
+        </NewPatientForm>
       </div>
 
       <Card>

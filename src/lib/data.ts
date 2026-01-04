@@ -57,6 +57,32 @@ export const patients: Patient[] = [
     dischargeDate: subDays(today, 10).toISOString(),
     status: 'Discharged',
   },
+  {
+    id: '5',
+    name: 'Jessica Brown',
+    avatarId: 'avatar-1',
+    dateOfBirth: '1992-08-12',
+    gender: 'Female',
+    contact: '555-0105',
+    address: '212 Elm St, Springfield',
+    medicalHistory: ['Migraines'],
+    admissionDate: subDays(today, 3).toISOString(),
+    dischargeDate: null,
+    status: 'Admitted',
+  },
+  {
+    id: '6',
+    name: 'Chris Wilson',
+    avatarId: 'avatar-2',
+    dateOfBirth: '1988-07-22',
+    gender: 'Male',
+    contact: '555-0106',
+    address: '333 Cedar Blvd, Springfield',
+    medicalHistory: ['Allergies'],
+    admissionDate: subDays(today, 1).toISOString(),
+    dischargeDate: null,
+    status: 'Admitted',
+  },
 ];
 
 export const vitalSigns: VitalSign[] = [
@@ -65,6 +91,8 @@ export const vitalSigns: VitalSign[] = [
   { id: 'v3', patientId: '2', date: subDays(today, 2).toISOString(), bloodPressure: '130/85', bloodSugar: '150 mg/dL', heartRate: 80, temperature: 99.0 },
   { id: 'v4', patientId: '2', date: subDays(today, 1).toISOString(), bloodPressure: '128/84', bloodSugar: '145 mg/dL', heartRate: 78, temperature: 98.9 },
   { id: 'v5', patientId: '3', date: subDays(today, 5).toISOString(), bloodPressure: '110/70', bloodSugar: '85 mg/dL', heartRate: 65, temperature: 98.4 },
+  { id: 'v6', patientId: '5', date: subDays(today, 1).toISOString(), bloodPressure: '115/75', bloodSugar: '90 mg/dL', heartRate: 70, temperature: 98.5 },
+  { id: 'v7', patientId: '6', date: subDays(today, 1).toISOString(), bloodPressure: '125/82', bloodSugar: '105 mg/dL', heartRate: 77, temperature: 98.8 },
 ];
 
 export const medications: Medication[] = [
@@ -72,6 +100,8 @@ export const medications: Medication[] = [
   { id: 'm2', patientId: '1', name: 'Albuterol', dosage: '2 puffs', time: '10:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
   { id: 'm3', patientId: '2', name: 'Metformin', dosage: '500mg', time: '08:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
   { id: 'm4', patientId: '2', name: 'Insulin', dosage: '10 units', time: '08:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
+  { id: 'm5', patientId: '5', name: 'Sumatriptan', dosage: '50mg', time: 'as needed', date: format(subDays(today, 2), 'yyyy-MM-dd') },
+  { id: 'm6', patientId: '6', name: 'Loratadine', dosage: '10mg', time: '09:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
 ];
 
 export const testReports: TestReport[] = [
@@ -113,6 +143,21 @@ export const billings: Billing[] = [
              { id: 'b9', description: 'Lipid Panel', quantity: 1, unitPrice: 90, total: 90 },
         ],
         total: 1890,
+    },
+    {
+        patientId: '5',
+        items: [
+            { id: 'b10', description: 'Room Charge', quantity: 3, unitPrice: 220, total: 660 },
+        ],
+        total: 660,
+    },
+    {
+        patientId: '6',
+        items: [
+            { id: 'b11', description: 'Room Charge', quantity: 1, unitPrice: 220, total: 220 },
+            { id: 'b12', description: 'Allergy Test', quantity: 1, unitPrice: 250, total: 250 },
+        ],
+        total: 470,
     }
 ]
 
@@ -122,3 +167,16 @@ export const getVitalsByPatientId = (patientId: string) => vitalSigns.filter(v =
 export const getMedicationsByPatientId = (patientId: string) => medications.filter(m => m.patientId === patientId);
 export const getTestReportsByPatientId = (patientId: string) => testReports.filter(r => r.patientId === patientId);
 export const getBillingByPatientId = (patientId: string) => billings.find(b => b.patientId === patientId);
+
+export function addPatient(patient: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId'>) {
+    const newPatient: Patient = {
+        ...patient,
+        id: (patients.length + 1).toString(),
+        avatarId: `avatar-${(patients.length % 5) + 1}`,
+        status: 'Admitted',
+        admissionDate: new Date().toISOString(),
+        dischargeDate: null,
+    };
+    patients.unshift(newPatient);
+    return newPatient;
+}
