@@ -1,5 +1,5 @@
-import { Patient, VitalSign, Medication, TestReport, Billing, Department } from './types';
-import { subDays, format } from 'date-fns';
+import { Patient, VitalSign, Medication, TestReport, Billing, Department, Appointment } from './types';
+import { subDays, format, addDays } from 'date-fns';
 
 const today = new Date();
 
@@ -212,9 +212,11 @@ export const departments: Department[] = [
         name: 'Cardiology',
         head: 'Dr. Evelyn Reed',
         description: 'Specializes in heart-related conditions, from congenital heart defects to coronary artery disease.',
+        opdSchedule: 'Mon, Wed, Fri (9 AM - 1 PM)',
+        operationDays: 'Tuesday & Thursday',
         doctors: [
-            { id: 'doc1', name: 'Dr. Evelyn Reed', specialty: 'Interventional Cardiology', availability: ['Mon', 'Wed', 'Fri'] },
-            { id: 'doc2', name: 'Dr. Samuel Jones', specialty: 'Electrophysiology', availability: ['Tue', 'Thu'] },
+            { id: 'doc1', name: 'Dr. Evelyn Reed', specialty: 'Interventional Cardiology', availability: ['Mon', 'Wed', 'Fri'], opdDays: ['Mon', 'Wed'], opdHours: '9 AM - 11 AM' },
+            { id: 'doc2', name: 'Dr. Samuel Jones', specialty: 'Electrophysiology', availability: ['Tue', 'Thu'], opdDays: ['Fri'], opdHours: '10 AM - 1 PM' },
         ]
     },
     {
@@ -222,9 +224,11 @@ export const departments: Department[] = [
         name: 'Neurology',
         head: 'Dr. Arthur Crane',
         description: 'Focuses on disorders of the nervous system, including the brain, spinal cord, and nerves.',
+        opdSchedule: 'Tue, Thu (10 AM - 2 PM)',
+        operationDays: 'Monday',
         doctors: [
-            { id: 'doc3', name: 'Dr. Arthur Crane', specialty: 'Neuro-oncology', availability: ['Tue', 'Thu'] },
-            { id: 'doc4', name: 'Dr. Isabella Cortez', specialty: 'Pediatric Neurology', availability: ['Mon', 'Wed'] },
+            { id: 'doc3', name: 'Dr. Arthur Crane', specialty: 'Neuro-oncology', availability: ['Tue', 'Thu'], opdDays: ['Tue', 'Thu'], opdHours: '10 AM - 12 PM' },
+            { id: 'doc4', name: 'Dr. Isabella Cortez', specialty: 'Pediatric Neurology', availability: ['Mon', 'Wed'], opdDays: ['Tue', 'Thu'], opdHours: '12 PM - 2 PM' },
         ]
     },
     {
@@ -232,9 +236,11 @@ export const departments: Department[] = [
         name: 'Orthopedics',
         head: 'Dr. Marcus Thorne',
         description: 'Deals with injuries and diseases of your body\'s musculoskeletal system.',
+        opdSchedule: 'Mon, Fri (8 AM - 12 PM)',
+        operationDays: 'Wednesday',
         doctors: [
-            { id: 'doc5', name: 'Dr. Marcus Thorne', specialty: 'Sports Medicine', availability: ['Mon', 'Fri'] },
-            { id: 'doc6', name: 'Dr. Lena Petrova', specialty: 'Spine Surgery', availability: ['Wed', 'Thu'] },
+            { id: 'doc5', name: 'Dr. Marcus Thorne', specialty: 'Sports Medicine', availability: ['Mon', 'Fri'], opdDays: ['Mon', 'Fri'], opdHours: '8 AM - 10 AM' },
+            { id: 'doc6', name: 'Dr. Lena Petrova', specialty: 'Spine Surgery', availability: ['Wed', 'Thu'], opdDays: ['Mon', 'Fri'], opdHours: '10 AM - 12 PM' },
         ]
     },
     {
@@ -242,9 +248,11 @@ export const departments: Department[] = [
         name: 'Radiology',
         head: 'Dr. Helen Cho',
         description: 'Uses medical imaging to diagnose and treat diseases seen within the body.',
+        opdSchedule: 'Daily (9 AM - 5 PM)',
+        operationDays: 'N/A (Interventional procedures as scheduled)',
         doctors: [
-            { id: 'doc7', name: 'Dr. Helen Cho', specialty: 'Diagnostic Radiology', availability: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] },
-            { id: 'doc8', name: 'Dr. Ben Carter', specialty: 'Interventional Radiology', availability: ['Mon', 'Wed', 'Fri'] },
+            { id: 'doc7', name: 'Dr. Helen Cho', specialty: 'Diagnostic Radiology', availability: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], opdDays: [], opdHours: '' },
+            { id: 'doc8', name: 'Dr. Ben Carter', specialty: 'Interventional Radiology', availability: ['Mon', 'Wed', 'Fri'], opdDays: [], opdHours: '' },
         ]
     },
      {
@@ -252,11 +260,21 @@ export const departments: Department[] = [
         name: 'Oncology',
         head: 'Dr. Kenji Tanaka',
         description: 'Dedicated to the diagnosis and treatment of cancer.',
+        opdSchedule: 'Mon, Wed, Fri (10 AM - 4 PM)',
+        operationDays: 'N/A (Chemotherapy/Radiation as per plan)',
         doctors: [
-            { id: 'doc9', name: 'Dr. Kenji Tanaka', specialty: 'Medical Oncology', availability: ['Mon', 'Wed'] },
-            { id: 'doc10', name: 'Dr. Sofia Rossi', specialty: 'Radiation Oncology', availability: ['Tue', 'Thu', 'Fri'] },
+            { id: 'doc9', name: 'Dr. Kenji Tanaka', specialty: 'Medical Oncology', availability: ['Mon', 'Wed'], opdDays: ['Mon', 'Wed'], opdHours: '10 AM - 1 PM' },
+            { id: 'doc10', name: 'Dr. Sofia Rossi', specialty: 'Radiation Oncology', availability: ['Tue', 'Thu', 'Fri'], opdDays: ['Fri'], opdHours: '11 AM - 2 PM' },
         ]
     },
+];
+
+export const appointments: Appointment[] = [
+    { id: 'apt1', patientName: 'Jessica Brown', doctorName: 'Dr. Evelyn Reed', department: 'Cardiology', date: format(addDays(today, 2), 'yyyy-MM-dd'), time: '10:00 AM', status: 'Scheduled' },
+    { id: 'apt2', patientName: 'Robert Martinez', doctorName: 'Dr. Samuel Jones', department: 'Cardiology', date: format(addDays(today, 2), 'yyyy-MM-dd'), time: '11:00 AM', status: 'Scheduled' },
+    { id: 'apt3', patientName: 'New Patient', doctorName: 'Dr. Arthur Crane', department: 'Neurology', date: format(addDays(today, 3), 'yyyy-MM-dd'), time: '11:30 AM', status: 'Scheduled' },
+    { id: 'apt4', patientName: 'Former Patient', doctorName: 'Dr. Marcus Thorne', department: 'Orthopedics', date: format(subDays(today, 1), 'yyyy-MM-dd'), time: '09:00 AM', status: 'Completed' },
+     { id: 'apt5', patientName: 'Guest User', doctorName: 'Dr. Sofia Rossi', department: 'Oncology', date: format(addDays(today, 1), 'yyyy-MM-dd'), time: '01:00 PM', status: 'Canceled' },
 ];
 
 
@@ -267,6 +285,9 @@ export const getMedicationsByPatientId = (patientId: string) => medications.filt
 export const getTestReportsByPatientId = (patientId: string) => testReports.filter(r => r.patientId === patientId);
 export const getBillingByPatientId = (patientId: string) => billings.find(b => b.patientId === patientId);
 export const getDepartments = () => departments;
+export const getAppointments = () => appointments;
+export const getAllDoctors = () => departments.flatMap(d => d.doctors.map(doc => ({ ...doc, department: d.name })));
+
 
 export function addPatient(patient: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId'>) {
     const newPatient: Patient = {

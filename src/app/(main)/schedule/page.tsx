@@ -1,12 +1,14 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Building, Stethoscope, Calendar } from 'lucide-react';
 import { DepartmentsTab } from './_components/departments-tab';
+import { DoctorsTab } from './_components/doctors-tab';
+import { AppointmentsTab } from './_components/appointments-tab';
 
 export default function SchedulePage() {
   const tabs = [
     { value: 'departments', label: 'Departments', icon: Building, component: <DepartmentsTab /> },
-    { value: 'doctors', label: 'Doctors', icon: Stethoscope, component: <p className="text-muted-foreground">Doctor availability will be displayed here.</p> },
-    { value: 'appointments', label: 'Appointments', icon: Calendar, component: <p className="text-muted-foreground">Appointment schedule will be displayed here.</p> },
+    { value: 'doctors', label: 'Doctors', icon: Stethoscope, component: <DoctorsTab /> },
+    { value: 'appointments', label: 'Appointments', icon: Calendar, component: <AppointmentsTab /> },
   ];
 
   return (

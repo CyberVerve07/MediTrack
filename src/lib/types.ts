@@ -63,6 +63,8 @@ export interface Doctor {
     name: string;
     specialty: string;
     availability: string[];
+    opdDays: string[];
+    opdHours: string;
 }
 
 export interface Department {
@@ -71,4 +73,16 @@ export interface Department {
     head: string;
     description: string;
     doctors: Doctor[];
+    opdSchedule: string;
+    operationDays: string;
+}
+
+export interface Appointment {
+    id: string;
+    patientName: string;
+    doctorName: string;
+    department: string;
+    date: string;
+    time: string;
+    status: 'Scheduled' | 'Completed' | 'Canceled';
 }
