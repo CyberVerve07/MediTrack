@@ -3,7 +3,7 @@ import { subDays, format } from 'date-fns';
 
 const today = new Date();
 
-export const patients: Patient[] = [
+export let patients: Patient[] = [
   {
     id: '1',
     name: 'Sarah Johnson',
@@ -179,4 +179,27 @@ export function addPatient(patient: Omit<Patient, 'id' | 'status' | 'admissionDa
     };
     patients.unshift(newPatient);
     return newPatient;
+}
+
+export function editPatient(patientId: string, patientData: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId'>) {
+    const patientIndex = patients.findIndex(p => p.id === patientId);
+    if (patientIndex > -1) {
+        const existingPatient = patients[patientIndex];
+        patients[patientIndex] = {
+            ...existingPatient,
+            ...patientData,
+        };
+        return patients[patientIndex];
+    }
+    return null;
+}
+
+export function dischargePatient(patientId: string) {
+    const patientIndex = patients.findIndex(p => p.id === patientId);
+    if (patientIndex > -1) {
+        patients[patientIndex].status = 'Discharged';
+        patients[patientIndex].dischargeDate = new Date().toISOString();
+        return patients[patientIndex];
+    }
+    return null;
 }

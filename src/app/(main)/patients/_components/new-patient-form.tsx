@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -44,7 +44,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 import { CalendarIcon, LoaderCircle } from 'lucide-react';
-import { addPatient } from '../[id]/actions';
+import { addPatient, editPatient } from '../[id]/actions';
+import type { Patient } from '@/lib/types';
 
 const formSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
@@ -57,36 +58,77 @@ const formSchema = z.object({
 
 type FormValues = z.infer<typeof formSchema>;
 
-export function NewPatientForm({ children }: { children: React.ReactNode }) {
-  const [open, setOpen] = useState(false);
+type NewPatientFormProps = {
+  children: React.ReactNode;
+  patient?: Patient;
+  onOpenChange?: (open: boolean) => void;
+  open?: boolean;
+};
+
+export function NewPatientForm({
+  children,
+  patient,
+  open: controlledOpen,
+  onOpenChange: setControlledOpen,
+}: NewPatientFormProps) {
+  const [internalOpen, setInternalOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
 
+  const open = controlledOpen ?? internalOpen;
+  const setOpen = setControlledOpen ?? setInternalOpen;
+
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: '',
-      gender: 'Male',
-      contact: '',
-      address: '',
-      medicalHistory: '',
-    },
   });
+
+  useEffect(() => {
+    if (patient && open) {
+      form.reset({
+        name: patient.name,
+        dateOfBirth: new Date(patient.dateOfBirth),
+        gender: patient.gender,
+        contact: patient.contact,
+        address: patient.address,
+        medicalHistory: patient.medicalHistory.join(', '),
+      });
+    } else if (!patient && open) {
+      form.reset({
+        name: '',
+        dateOfBirth: undefined,
+        gender: 'Male',
+        contact: '',
+        address: '',
+        medicalHistory: '',
+      });
+    }
+  }, [patient, open, form]);
 
   async function onSubmit(values: FormValues) {
     setIsSubmitting(true);
     try {
-        const patientData = {
-            ...values,
-            dateOfBirth: values.dateOfBirth.toISOString(),
-            medicalHistory: values.medicalHistory.split(',').map(item => item.trim()),
-        }
-      const result = await addPatient(patientData);
+      const patientData = {
+        ...values,
+        dateOfBirth: values.dateOfBirth.toISOString(),
+        medicalHistory: values.medicalHistory
+          .split(',')
+          .map(item => item.trim()),
+      };
+      
+      let result;
+      if (patient) {
+        result = await editPatient(patient.id, patientData);
+      } else {
+        result = await addPatient(patientData);
+      }
+
       if (result.success) {
         toast({
-          title: 'Patient Added',
-          description: `${values.name} has been successfully added to the roster.`,
+          title: patient ? 'Patient Updated' : 'Patient Added',
+          description: `${values.name} has been successfully ${
+            patient ? 'updated' : 'added'
+          }.`,
         });
         setOpen(false);
         form.reset();
@@ -98,11 +140,13 @@ export function NewPatientForm({ children }: { children: React.ReactNode }) {
       console.error(error);
       toast({
         variant: 'destructive',
-        title: 'Failed to Add Patient',
-        description: 'An error occurred while adding the patient. Please try again.',
+        title: `Failed to ${patient ? 'Update' : 'Add'} Patient`,
+        description: `An error occurred while ${
+          patient ? 'updating' : 'adding'
+        } the patient. Please try again.`,
       });
     } finally {
-        setIsSubmitting(false);
+      setIsSubmitting(false);
     }
   }
 
@@ -111,13 +155,20 @@ export function NewPatientForm({ children }: { children: React.ReactNode }) {
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Add New Patient</DialogTitle>
+          <DialogTitle>
+            {patient ? 'Edit Patient' : 'Add New Patient'}
+          </DialogTitle>
           <DialogDescription>
-            Enter the details for the new patient. Click save when you're done.
+            {patient
+              ? 'Edit the details for the patient.'
+              : "Enter the details for the new patient. Click save when you're done."}
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="grid gap-4 py-4">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="grid gap-4 py-4"
+          >
             <FormField
               control={form.control}
               name="name"
@@ -162,7 +213,7 @@ export function NewPatientForm({ children }: { children: React.ReactNode }) {
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) =>
+                          disabled={date =>
                             date > new Date() || date < new Date('1900-01-01')
                           }
                           initialFocus
@@ -181,6 +232,7 @@ export function NewPatientForm({ children }: { children: React.ReactNode }) {
                     <FormLabel>Gender</FormLabel>
                     <Select
                       onValueChange={field.onChange}
+                      value={field.value}
                       defaultValue={field.value}
                     >
                       <FormControl>
@@ -225,14 +277,17 @@ export function NewPatientForm({ children }: { children: React.ReactNode }) {
                 </FormItem>
               )}
             />
-             <FormField
+            <FormField
               control={form.control}
               name="medicalHistory"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Medical History</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Diabetes, Hypertension, ..." {...field} />
+                    <Textarea
+                      placeholder="Diabetes, Hypertension, ..."
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
                     Please enter conditions separated by a comma.
@@ -243,8 +298,10 @@ export function NewPatientForm({ children }: { children: React.ReactNode }) {
             />
             <DialogFooter>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
-                Save Patient
+                {isSubmitting && (
+                  <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                {patient ? 'Save Changes' : 'Save Patient'}
               </Button>
             </DialogFooter>
           </form>

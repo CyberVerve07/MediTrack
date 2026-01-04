@@ -1,3 +1,6 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
@@ -12,6 +15,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { patients } from '@/lib/data';
+import type { Patient } from '@/lib/types';
 import { getPlaceholderImage } from '@/lib/placeholder-images';
 import { format, differenceInYears } from 'date-fns';
 import { MoreHorizontal, PlusCircle } from 'lucide-react';
@@ -21,15 +25,27 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { NewPatientForm } from './_components/new-patient-form';
+import { DischargePatientDialog } from './_components/discharge-patient-dialog';
 
 function getPatientAge(dateOfBirth: string) {
   return differenceInYears(new Date(), new Date(dateOfBirth));
 }
 
 export default function PatientsPage() {
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [selectedPatient, setSelectedPatient] = useState<Patient | undefined>(
+    undefined
+  );
+
+  const handleEdit = (patient: Patient) => {
+    setSelectedPatient(patient);
+    setIsEditDialogOpen(true);
+  };
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
@@ -70,13 +86,24 @@ export default function PatientsPage() {
                 return (
                   <TableRow key={patient.id}>
                     <TableCell className="hidden sm:table-cell">
-                       <Avatar>
-                         {avatar && <AvatarImage src={avatar.imageUrl} alt={patient.name} data-ai-hint={avatar.imageHint} />}
-                         <AvatarFallback>{patient.name.charAt(0)}</AvatarFallback>
-                       </Avatar>
+                      <Avatar>
+                        {avatar && (
+                          <AvatarImage
+                            src={avatar.imageUrl}
+                            alt={patient.name}
+                            data-ai-hint={avatar.imageHint}
+                          />
+                        )}
+                        <AvatarFallback>
+                          {patient.name.charAt(0)}
+                        </AvatarFallback>
+                      </Avatar>
                     </TableCell>
                     <TableCell className="font-medium">
-                      <Link href={`/patients/${patient.id}`} className="hover:underline">
+                      <Link
+                        href={`/patients/${patient.id}`}
+                        className="hover:underline"
+                      >
                         {patient.name}
                       </Link>
                     </TableCell>
@@ -87,7 +114,9 @@ export default function PatientsPage() {
                             ? 'default'
                             : 'secondary'
                         }
-                        className={patient.status === 'Admitted' ? 'bg-green-600' : ''}
+                        className={
+                          patient.status === 'Admitted' ? 'bg-green-600' : ''
+                        }
                       >
                         {patient.status}
                       </Badge>
@@ -112,13 +141,24 @@ export default function PatientsPage() {
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
                           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                          <DropdownMenuItem>
-                            <Link href={`/patients/${patient.id}`}>View Details</Link>
+                          <DropdownMenuItem asChild>
+                            <Link href={`/patients/${patient.id}`}>
+                              View Details
+                            </Link>
                           </DropdownMenuItem>
-                          <DropdownMenuItem>Edit</DropdownMenuItem>
-                          <DropdownMenuItem className="text-destructive">
-                            Discharge
+                          <DropdownMenuItem onClick={() => handleEdit(patient)}>
+                            Edit
                           </DropdownMenuItem>
+                          <DropdownMenuSeparator />
+                          <DischargePatientDialog patient={patient}>
+                            <DropdownMenuItem
+                              onSelect={e => e.preventDefault()}
+                              className="text-destructive"
+                              disabled={patient.status === 'Discharged'}
+                            >
+                              Discharge
+                            </DropdownMenuItem>
+                          </DischargePatientDialog>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -129,6 +169,14 @@ export default function PatientsPage() {
           </Table>
         </CardContent>
       </Card>
+      <NewPatientForm
+        patient={selectedPatient}
+        open={isEditDialogOpen}
+        onOpenChange={setIsEditDialogOpen}
+      >
+        {/* This is a controlled dialog, trigger is managed externally */}
+        <span />
+      </NewPatientForm>
     </div>
   );
 }

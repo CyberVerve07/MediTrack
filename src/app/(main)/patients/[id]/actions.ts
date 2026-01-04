@@ -1,7 +1,7 @@
 'use server';
 
 import { generatePatientImprovementNotes } from '@/ai/flows/generate-patient-improvement-notes';
-import { addPatient as addPatientData } from '@/lib/data';
+import { addPatient as addPatientData, dischargePatient as dischargePatientData, editPatient as editPatientData } from '@/lib/data';
 import type { Patient, VitalSign, Medication, TestReport } from '@/lib/types';
 import { revalidatePath } from 'next/cache';
 
@@ -53,5 +53,30 @@ export async function addPatient(formData: Omit<Patient, 'id' | 'status' | 'admi
     } catch (error) {
         console.error('Failed to add patient:', error);
         return { success: false, error: 'Failed to add patient.' }
+    }
+}
+
+export async function editPatient(patientId: string, formData: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId'>) {
+    try {
+        editPatientData(patientId, formData);
+        revalidatePath('/patients');
+        revalidatePath(`/patients/${patientId}`);
+        return { success: true }
+    } catch (error) {
+        console.error('Failed to edit patient:', error);
+        return { success: false, error: 'Failed to edit patient.' }
+    }
+}
+
+
+export async function dischargePatient(patientId: string) {
+    try {
+        dischargePatientData(patientId);
+        revalidatePath('/patients');
+        revalidatePath(`/patients/${patientId}`);
+        return { success: true }
+    } catch (error) {
+        console.error('Failed to discharge patient:', error);
+        return { success: false, error: 'Failed to discharge patient.' }
     }
 }
