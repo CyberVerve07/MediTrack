@@ -6,7 +6,7 @@ type ProfileTabProps = {
   patient: Patient;
 };
 
-function InfoItem({ label, value }: { label: string; value: string | null }) {
+function InfoItem({ label, value }: { label: string; value: string | null | undefined }) {
   return (
     <div>
       <p className="text-sm font-medium text-muted-foreground">{label}</p>
@@ -43,6 +43,7 @@ export function ProfileTab({ patient }: ProfileTabProps) {
                 : 'N/A'
             }
           />
+          <InfoItem label="Room Number" value={patient.roomNumber} />
           <div>
             <p className="text-sm font-medium text-muted-foreground">Medical History</p>
             <ul className="list-disc pl-5">

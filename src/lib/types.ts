@@ -13,6 +13,7 @@ export interface Patient {
   dischargeDate: string | null;
   status: PatientStatus;
   improvementNotes?: string;
+  roomNumber?: string;
 }
 
 export interface VitalSign {
@@ -55,4 +56,19 @@ export interface Billing {
   patientId: string;
   items: BillableItem[];
   total: number;
+}
+
+export interface Doctor {
+    id: string;
+    name: string;
+    specialty: string;
+    availability: string[];
+}
+
+export interface Department {
+    id: string;
+    name: string;
+    head: string;
+    description: string;
+    doctors: Doctor[];
 }

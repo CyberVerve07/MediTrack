@@ -19,11 +19,10 @@ import {
   LayoutDashboard,
   Users,
   Bell,
-  Settings,
   CircleUser,
+  CalendarDays,
 } from 'lucide-react';
 import { Logo } from '@/components/icons';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -43,6 +42,11 @@ const menuItems = [
     href: '/patients',
     label: 'Patients',
     icon: Users,
+  },
+  {
+    href: '/schedule',
+    label: 'Schedule',
+    icon: CalendarDays,
   },
 ];
 

@@ -1,4 +1,4 @@
-import { Patient, VitalSign, Medication, TestReport, Billing } from './types';
+import { Patient, VitalSign, Medication, TestReport, Billing, Department } from './types';
 import { subDays, format } from 'date-fns';
 
 const today = new Date();
@@ -17,6 +17,7 @@ export let patients: Patient[] = [
     dischargeDate: null,
     status: 'Admitted',
     improvementNotes: 'Patient is responding well to treatment. Vitals are stable. Continue monitoring respiratory status.',
+    roomNumber: '301A',
   },
   {
     id: '2',
@@ -30,6 +31,7 @@ export let patients: Patient[] = [
     admissionDate: subDays(today, 5).toISOString(),
     dischargeDate: null,
     status: 'Admitted',
+    roomNumber: '302B',
   },
   {
     id: '3',
@@ -43,6 +45,7 @@ export let patients: Patient[] = [
     admissionDate: subDays(today, 15).toISOString(),
     dischargeDate: subDays(today, 2).toISOString(),
     status: 'Discharged',
+    roomNumber: '303C',
   },
   {
     id: '4',
@@ -56,6 +59,7 @@ export let patients: Patient[] = [
     admissionDate: subDays(today, 20).toISOString(),
     dischargeDate: subDays(today, 10).toISOString(),
     status: 'Discharged',
+    roomNumber: '304A',
   },
   {
     id: '5',
@@ -69,6 +73,7 @@ export let patients: Patient[] = [
     admissionDate: subDays(today, 3).toISOString(),
     dischargeDate: null,
     status: 'Admitted',
+    roomNumber: '305B',
   },
   {
     id: '6',
@@ -82,6 +87,35 @@ export let patients: Patient[] = [
     admissionDate: subDays(today, 1).toISOString(),
     dischargeDate: null,
     status: 'Admitted',
+    roomNumber: '306C',
+  },
+  {
+    id: '7',
+    name: 'Amanda Taylor',
+    avatarId: 'avatar-4',
+    dateOfBirth: '1983-01-18',
+    gender: 'Female',
+    contact: '555-0107',
+    address: '444 Spruce Way, Springfield',
+    medicalHistory: ['Arthritis'],
+    admissionDate: subDays(today, 12).toISOString(),
+    dischargeDate: subDays(today, 3).toISOString(),
+    status: 'Discharged',
+    roomNumber: '401A',
+  },
+  {
+    id: '8',
+    name: 'Robert Martinez',
+    avatarId: 'avatar-5',
+    dateOfBirth: '1955-03-10',
+    gender: 'Male',
+    contact: '555-0108',
+    address: '555 Redwood Dr, Springfield',
+    medicalHistory: ['Coronary Artery Disease'],
+    admissionDate: subDays(today, 8).toISOString(),
+    dischargeDate: null,
+    status: 'Admitted',
+    roomNumber: '402B',
   },
 ];
 
@@ -93,6 +127,7 @@ export const vitalSigns: VitalSign[] = [
   { id: 'v5', patientId: '3', date: subDays(today, 5).toISOString(), bloodPressure: '110/70', bloodSugar: '85 mg/dL', heartRate: 65, temperature: 98.4 },
   { id: 'v6', patientId: '5', date: subDays(today, 1).toISOString(), bloodPressure: '115/75', bloodSugar: '90 mg/dL', heartRate: 70, temperature: 98.5 },
   { id: 'v7', patientId: '6', date: subDays(today, 1).toISOString(), bloodPressure: '125/82', bloodSugar: '105 mg/dL', heartRate: 77, temperature: 98.8 },
+  { id: 'v8', patientId: '8', date: subDays(today, 1).toISOString(), bloodPressure: '140/90', bloodSugar: '110 mg/dL', heartRate: 85, temperature: 99.1 },
 ];
 
 export const medications: Medication[] = [
@@ -102,12 +137,14 @@ export const medications: Medication[] = [
   { id: 'm4', patientId: '2', name: 'Insulin', dosage: '10 units', time: '08:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
   { id: 'm5', patientId: '5', name: 'Sumatriptan', dosage: '50mg', time: 'as needed', date: format(subDays(today, 2), 'yyyy-MM-dd') },
   { id: 'm6', patientId: '6', name: 'Loratadine', dosage: '10mg', time: '09:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
+  { id: 'm7', patientId: '8', name: 'Aspirin', dosage: '81mg', time: '09:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
 ];
 
 export const testReports: TestReport[] = [
   { id: 'tr1', patientId: '1', name: 'Complete Blood Count', category: 'Blood Test', date: subDays(today, 9).toISOString(), url: '#' },
   { id: 'tr2', patientId: '1', name: 'Chest X-Ray', category: 'X-Ray', date: subDays(today, 8).toISOString(), url: '#' },
   { id: 'tr3', patientId: '2', name: 'HbA1c', category: 'Blood Test', date: subDays(today, 4).toISOString(), url: '#' },
+  { id: 'tr4', patientId: '8', name: 'Echocardiogram', category: 'X-Ray', date: subDays(today, 7).toISOString(), url: '#' },
 ];
 
 export const billings: Billing[] = [
@@ -158,8 +195,70 @@ export const billings: Billing[] = [
             { id: 'b12', description: 'Allergy Test', quantity: 1, unitPrice: 250, total: 250 },
         ],
         total: 470,
-    }
-]
+    },
+    {
+        patientId: '8',
+        items: [
+            { id: 'b13', description: 'Room Charge', quantity: 8, unitPrice: 250, total: 2000 },
+            { id: 'b14', description: 'Echocardiogram', quantity: 1, unitPrice: 500, total: 500 },
+        ],
+        total: 2500,
+    },
+];
+
+export const departments: Department[] = [
+    {
+        id: 'cardio',
+        name: 'Cardiology',
+        head: 'Dr. Evelyn Reed',
+        description: 'Specializes in heart-related conditions, from congenital heart defects to coronary artery disease.',
+        doctors: [
+            { id: 'doc1', name: 'Dr. Evelyn Reed', specialty: 'Interventional Cardiology', availability: ['Mon', 'Wed', 'Fri'] },
+            { id: 'doc2', name: 'Dr. Samuel Jones', specialty: 'Electrophysiology', availability: ['Tue', 'Thu'] },
+        ]
+    },
+    {
+        id: 'neuro',
+        name: 'Neurology',
+        head: 'Dr. Arthur Crane',
+        description: 'Focuses on disorders of the nervous system, including the brain, spinal cord, and nerves.',
+        doctors: [
+            { id: 'doc3', name: 'Dr. Arthur Crane', specialty: 'Neuro-oncology', availability: ['Tue', 'Thu'] },
+            { id: 'doc4', name: 'Dr. Isabella Cortez', specialty: 'Pediatric Neurology', availability: ['Mon', 'Wed'] },
+        ]
+    },
+    {
+        id: 'ortho',
+        name: 'Orthopedics',
+        head: 'Dr. Marcus Thorne',
+        description: 'Deals with injuries and diseases of your body\'s musculoskeletal system.',
+        doctors: [
+            { id: 'doc5', name: 'Dr. Marcus Thorne', specialty: 'Sports Medicine', availability: ['Mon', 'Fri'] },
+            { id: 'doc6', name: 'Dr. Lena Petrova', specialty: 'Spine Surgery', availability: ['Wed', 'Thu'] },
+        ]
+    },
+    {
+        id: 'radio',
+        name: 'Radiology',
+        head: 'Dr. Helen Cho',
+        description: 'Uses medical imaging to diagnose and treat diseases seen within the body.',
+        doctors: [
+            { id: 'doc7', name: 'Dr. Helen Cho', specialty: 'Diagnostic Radiology', availability: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'] },
+            { id: 'doc8', name: 'Dr. Ben Carter', specialty: 'Interventional Radiology', availability: ['Mon', 'Wed', 'Fri'] },
+        ]
+    },
+     {
+        id: 'onco',
+        name: 'Oncology',
+        head: 'Dr. Kenji Tanaka',
+        description: 'Dedicated to the diagnosis and treatment of cancer.',
+        doctors: [
+            { id: 'doc9', name: 'Dr. Kenji Tanaka', specialty: 'Medical Oncology', availability: ['Mon', 'Wed'] },
+            { id: 'doc10', name: 'Dr. Sofia Rossi', specialty: 'Radiation Oncology', availability: ['Tue', 'Thu', 'Fri'] },
+        ]
+    },
+];
+
 
 // Helper functions to get data by ID
 export const getPatientById = (id: string) => patients.find(p => p.id === id);
@@ -167,6 +266,7 @@ export const getVitalsByPatientId = (patientId: string) => vitalSigns.filter(v =
 export const getMedicationsByPatientId = (patientId: string) => medications.filter(m => m.patientId === patientId);
 export const getTestReportsByPatientId = (patientId: string) => testReports.filter(r => r.patientId === patientId);
 export const getBillingByPatientId = (patientId: string) => billings.find(b => b.patientId === patientId);
+export const getDepartments = () => departments;
 
 export function addPatient(patient: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId'>) {
     const newPatient: Patient = {
