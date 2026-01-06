@@ -250,6 +250,7 @@ export const departments: Department[] = [
         description: 'Specializes in heart-related conditions, from congenital heart defects to coronary artery disease.',
         opdSchedule: 'Mon, Wed, Fri (9 AM - 1 PM)',
         operationDays: 'Tuesday & Thursday',
+        contact: '555-1101',
         doctors: [
             { id: 'doc1', name: 'Dr. Evelyn Reed', specialty: 'Interventional Cardiology', availability: ['Mon', 'Wed', 'Fri'], opdDays: ['Mon', 'Wed'], opdHours: '9 AM - 11 AM' },
             { id: 'doc2', name: 'Dr. Samuel Jones', specialty: 'Electrophysiology', availability: ['Tue', 'Thu'], opdDays: ['Fri'], opdHours: '10 AM - 1 PM' },
@@ -262,6 +263,7 @@ export const departments: Department[] = [
         description: 'Focuses on disorders of the nervous system, including the brain, spinal cord, and nerves.',
         opdSchedule: 'Tue, Thu (10 AM - 2 PM)',
         operationDays: 'Monday',
+        contact: '555-1102',
         doctors: [
             { id: 'doc3', name: 'Dr. Arthur Crane', specialty: 'Neuro-oncology', availability: ['Tue', 'Thu'], opdDays: ['Tue', 'Thu'], opdHours: '10 AM - 12 PM' },
             { id: 'doc4', name: 'Dr. Isabella Cortez', specialty: 'Pediatric Neurology', availability: ['Mon', 'Wed'], opdDays: ['Tue', 'Thu'], opdHours: '12 PM - 2 PM' },
@@ -274,6 +276,7 @@ export const departments: Department[] = [
         description: 'Deals with injuries and diseases of your body\'s musculoskeletal system.',
         opdSchedule: 'Mon, Fri (8 AM - 12 PM)',
         operationDays: 'Wednesday',
+        contact: '555-1103',
         doctors: [
             { id: 'doc5', name: 'Dr. Marcus Thorne', specialty: 'Sports Medicine', availability: ['Mon', 'Fri'], opdDays: ['Mon', 'Fri'], opdHours: '8 AM - 10 AM' },
             { id: 'doc6', name: 'Dr. Lena Petrova', specialty: 'Spine Surgery', availability: ['Wed', 'Thu'], opdDays: ['Mon', 'Fri'], opdHours: '10 AM - 12 PM' },
@@ -286,6 +289,7 @@ export const departments: Department[] = [
         description: 'Uses medical imaging to diagnose and treat diseases seen within the body.',
         opdSchedule: 'Daily (9 AM - 5 PM)',
         operationDays: 'N/A (Interventional procedures as scheduled)',
+        contact: '555-1104',
         doctors: [
             { id: 'doc7', name: 'Dr. Helen Cho', specialty: 'Diagnostic Radiology', availability: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], opdDays: [], opdHours: '' },
             { id: 'doc8', name: 'Dr. Ben Carter', specialty: 'Interventional Radiology', availability: ['Mon', 'Wed', 'Fri'], opdDays: [], opdHours: '' },
@@ -298,6 +302,7 @@ export const departments: Department[] = [
         description: 'Dedicated to the diagnosis and treatment of cancer.',
         opdSchedule: 'Mon, Wed, Fri (10 AM - 4 PM)',
         operationDays: 'N/A (Chemotherapy/Radiation as per plan)',
+        contact: '555-1105',
         doctors: [
             { id: 'doc9', name: 'Dr. Kenji Tanaka', specialty: 'Medical Oncology', availability: ['Mon', 'Wed'], opdDays: ['Mon', 'Wed'], opdHours: '10 AM - 1 PM' },
             { id: 'doc10', name: 'Dr. Sofia Rossi', specialty: 'Radiation Oncology', availability: ['Tue', 'Thu', 'Fri'], opdDays: ['Fri'], opdHours: '11 AM - 2 PM' },

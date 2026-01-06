@@ -1,3 +1,4 @@
+
 export type PatientStatus = 'Admitted' | 'Discharged' | 'ICU';
 
 export interface Patient {
@@ -76,6 +77,7 @@ export interface Department {
     doctors: Doctor[];
     opdSchedule: string;
     operationDays: string;
+    contact?: string;
 }
 
 export interface Appointment {
