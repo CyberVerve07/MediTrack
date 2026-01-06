@@ -1,7 +1,8 @@
+
 'use server';
 
 import { generatePatientImprovementNotes } from '@/ai/flows/generate-patient-improvement-notes';
-import { addPatient as addPatientData, dischargePatient as dischargePatientData, editPatient as editPatientData } from '@/lib/data';
+import { addPatient as addPatientData, dischargePatient as dischargePatientData, editPatient as editPatientData, addVitalSign as addVitalSignData } from '@/lib/data';
 import type { Patient, VitalSign, Medication, TestReport } from '@/lib/types';
 import { revalidatePath } from 'next/cache';
 
@@ -81,5 +82,16 @@ export async function dischargePatient(patientId: string) {
     } catch (error) {
         console.error('Failed to discharge patient:', error);
         return { success: false, error: 'Failed to discharge patient.' }
+    }
+}
+
+export async function addVitalSign(patientId: string, vitalData: Omit<VitalSign, 'id' | 'patientId' | 'date'>) {
+    try {
+        addVitalSignData(patientId, vitalData);
+        revalidatePath(`/patients/${patientId}`);
+        return { success: true };
+    } catch (error) {
+        console.error('Failed to add vital sign:', error);
+        return { success: false, error: 'Failed to add vital sign.' };
     }
 }

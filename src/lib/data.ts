@@ -1,3 +1,4 @@
+
 import { Patient, VitalSign, Medication, TestReport, Billing, Department, Appointment } from './types';
 import { subDays, format, addDays, differenceInYears } from 'date-fns';
 
@@ -149,7 +150,7 @@ export let patients: Patient[] = [
   },
 ];
 
-export const vitalSigns: VitalSign[] = [
+export let vitalSigns: VitalSign[] = [
   { id: 'v1', patientId: '1', date: subDays(today, 2).toISOString(), bloodPressure: '120/80', bloodSugar: '95 mg/dL', heartRate: 72, temperature: 98.6 },
   { id: 'v2', patientId: '1', date: subDays(today, 1).toISOString(), bloodPressure: '122/81', bloodSugar: '98 mg/dL', heartRate: 75, temperature: 98.7 },
   { id: 'v3', patientId: '2', date: subDays(today, 2).toISOString(), bloodPressure: '140/90', bloodSugar: '180 mg/dL', heartRate: 95, temperature: 99.5 },
@@ -315,7 +316,7 @@ export const appointments: Appointment[] = [
 
 // Helper functions to get data by ID
 export const getPatientById = (id: string) => patients.find(p => p.id === id);
-export const getVitalsByPatientId = (patientId: string) => vitalSigns.filter(v => v.patientId === patientId);
+export const getVitalsByPatientId = (patientId: string) => vitalSigns.filter(v => v.patientId === patientId).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
 export const getMedicationsByPatientId = (patientId: string) => medications.filter(m => m.patientId === patientId);
 export const getTestReportsByPatientId = (patientId: string) => testReports.filter(r => r.patientId === patientId);
 export const getBillingByPatientId = (patientId: string) => billings.find(b => b.patientId === patientId);
@@ -360,4 +361,15 @@ export function dischargePatient(patientId: string) {
         return patients[patientIndex];
     }
     return null;
+}
+
+export function addVitalSign(patientId: string, vitalData: Omit<VitalSign, 'id' | 'patientId' | 'date'>) {
+    const newVital: VitalSign = {
+        ...vitalData,
+        id: `v${vitalSigns.length + 1}`,
+        patientId: patientId,
+        date: new Date().toISOString(),
+    };
+    vitalSigns.push(newVital);
+    return newVital;
 }
