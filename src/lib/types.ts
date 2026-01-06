@@ -1,4 +1,4 @@
-export type PatientStatus = 'Admitted' | 'Discharged';
+export type PatientStatus = 'Admitted' | 'Discharged' | 'ICU';
 
 export interface Patient {
   id: string;
@@ -14,6 +14,7 @@ export interface Patient {
   status: PatientStatus;
   improvementNotes?: string;
   roomNumber?: string;
+  ward: string;
 }
 
 export interface VitalSign {

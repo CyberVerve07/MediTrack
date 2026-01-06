@@ -1,7 +1,14 @@
 import { Patient, VitalSign, Medication, TestReport, Billing, Department, Appointment } from './types';
-import { subDays, format, addDays } from 'date-fns';
+import { subDays, format, addDays, differenceInYears } from 'date-fns';
 
 const today = new Date();
+
+const getWard = (gender: Patient['gender'], dob: string): string => {
+    const age = differenceInYears(new Date(), new Date(dob));
+    if (age < 18) return 'Pediatrics';
+    if (gender === 'Female') return 'Women\'s Ward';
+    return 'Men\'s Ward';
+}
 
 export let patients: Patient[] = [
   {
@@ -18,6 +25,7 @@ export let patients: Patient[] = [
     status: 'Admitted',
     improvementNotes: 'Patient is responding well to treatment. Vitals are stable. Continue monitoring respiratory status.',
     roomNumber: '301A',
+    ward: getWard('Female', '1985-05-15'),
   },
   {
     id: '2',
@@ -28,10 +36,11 @@ export let patients: Patient[] = [
     contact: '555-0102',
     address: '456 Oak Ave, Springfield',
     medicalHistory: ['Diabetes Type 2'],
-    admissionDate: subDays(today, 5).toISOString(),
+    admissionDate: subDays(today, 2).toISOString(),
     dischargeDate: null,
-    status: 'Admitted',
-    roomNumber: '302B',
+    status: 'ICU',
+    roomNumber: 'ICU-02',
+    ward: 'ICU',
   },
   {
     id: '3',
@@ -46,6 +55,7 @@ export let patients: Patient[] = [
     dischargeDate: subDays(today, 2).toISOString(),
     status: 'Discharged',
     roomNumber: '303C',
+    ward: getWard('Female', '1990-02-25'),
   },
   {
     id: '4',
@@ -60,6 +70,7 @@ export let patients: Patient[] = [
     dischargeDate: subDays(today, 10).toISOString(),
     status: 'Discharged',
     roomNumber: '304A',
+    ward: getWard('Male', '1968-11-30'),
   },
   {
     id: '5',
@@ -74,6 +85,7 @@ export let patients: Patient[] = [
     dischargeDate: null,
     status: 'Admitted',
     roomNumber: '305B',
+    ward: getWard('Female', '1992-08-12'),
   },
   {
     id: '6',
@@ -88,6 +100,7 @@ export let patients: Patient[] = [
     dischargeDate: null,
     status: 'Admitted',
     roomNumber: '306C',
+    ward: getWard('Male', '1988-07-22'),
   },
   {
     id: '7',
@@ -102,6 +115,7 @@ export let patients: Patient[] = [
     dischargeDate: subDays(today, 3).toISOString(),
     status: 'Discharged',
     roomNumber: '401A',
+    ward: getWard('Female', '1983-01-18'),
   },
   {
     id: '8',
@@ -114,37 +128,58 @@ export let patients: Patient[] = [
     medicalHistory: ['Coronary Artery Disease'],
     admissionDate: subDays(today, 8).toISOString(),
     dischargeDate: null,
+    status: 'ICU',
+    roomNumber: 'ICU-01',
+    ward: 'ICU',
+  },
+   {
+    id: '9',
+    name: 'Leo Maxwell',
+    avatarId: 'avatar-3',
+    dateOfBirth: '2018-06-22',
+    gender: 'Male',
+    contact: '555-0109',
+    address: '678 Willow St, Springfield',
+    medicalHistory: ['Asthma'],
+    admissionDate: subDays(today, 4).toISOString(),
+    dischargeDate: null,
     status: 'Admitted',
-    roomNumber: '402B',
+    roomNumber: 'Ped-01A',
+    ward: getWard('Male', '2018-06-22'),
   },
 ];
 
 export const vitalSigns: VitalSign[] = [
   { id: 'v1', patientId: '1', date: subDays(today, 2).toISOString(), bloodPressure: '120/80', bloodSugar: '95 mg/dL', heartRate: 72, temperature: 98.6 },
   { id: 'v2', patientId: '1', date: subDays(today, 1).toISOString(), bloodPressure: '122/81', bloodSugar: '98 mg/dL', heartRate: 75, temperature: 98.7 },
-  { id: 'v3', patientId: '2', date: subDays(today, 2).toISOString(), bloodPressure: '130/85', bloodSugar: '150 mg/dL', heartRate: 80, temperature: 99.0 },
-  { id: 'v4', patientId: '2', date: subDays(today, 1).toISOString(), bloodPressure: '128/84', bloodSugar: '145 mg/dL', heartRate: 78, temperature: 98.9 },
+  { id: 'v3', patientId: '2', date: subDays(today, 2).toISOString(), bloodPressure: '140/90', bloodSugar: '180 mg/dL', heartRate: 95, temperature: 99.5 },
+  { id: 'v4', patientId: '2', date: subDays(today, 1).toISOString(), bloodPressure: '135/88', bloodSugar: '160 mg/dL', heartRate: 90, temperature: 99.1 },
   { id: 'v5', patientId: '3', date: subDays(today, 5).toISOString(), bloodPressure: '110/70', bloodSugar: '85 mg/dL', heartRate: 65, temperature: 98.4 },
   { id: 'v6', patientId: '5', date: subDays(today, 1).toISOString(), bloodPressure: '115/75', bloodSugar: '90 mg/dL', heartRate: 70, temperature: 98.5 },
   { id: 'v7', patientId: '6', date: subDays(today, 1).toISOString(), bloodPressure: '125/82', bloodSugar: '105 mg/dL', heartRate: 77, temperature: 98.8 },
-  { id: 'v8', patientId: '8', date: subDays(today, 1).toISOString(), bloodPressure: '140/90', bloodSugar: '110 mg/dL', heartRate: 85, temperature: 99.1 },
+  { id: 'v8', patientId: '8', date: subDays(today, 1).toISOString(), bloodPressure: '150/95', bloodSugar: '120 mg/dL', heartRate: 102, temperature: 99.8 },
+  { id: 'v9', patientId: '9', date: subDays(today, 1).toISOString(), bloodPressure: '100/65', bloodSugar: 'N/A', heartRate: 95, temperature: 99.0 },
 ];
 
 export const medications: Medication[] = [
   { id: 'm1', patientId: '1', name: 'Lisinopril', dosage: '10mg', time: '09:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
   { id: 'm2', patientId: '1', name: 'Albuterol', dosage: '2 puffs', time: '10:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
-  { id: 'm3', patientId: '2', name: 'Metformin', dosage: '500mg', time: '08:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
-  { id: 'm4', patientId: '2', name: 'Insulin', dosage: '10 units', time: '08:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
+  { id: 'm3', patientId: '2', name: 'Metformin', dosage: '1000mg', time: '08:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
+  { id: 'm4', patientId: '2', name: 'Norepinephrine', dosage: 'IV Drip', time: 'Continuous', date: format(subDays(today, 1), 'yyyy-MM-dd') },
   { id: 'm5', patientId: '5', name: 'Sumatriptan', dosage: '50mg', time: 'as needed', date: format(subDays(today, 2), 'yyyy-MM-dd') },
   { id: 'm6', patientId: '6', name: 'Loratadine', dosage: '10mg', time: '09:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
   { id: 'm7', patientId: '8', name: 'Aspirin', dosage: '81mg', time: '09:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
+  { id: 'm8', patientId: '8', name: 'Propofol', dosage: 'IV Drip', time: 'Continuous', date: format(subDays(today, 1), 'yyyy-MM-dd') },
+  { id: 'm9', patientId: '9', name: 'Amoxicillin', dosage: '250mg', time: '08:00 AM', date: format(subDays(today, 1), 'yyyy-MM-dd') },
 ];
 
 export const testReports: TestReport[] = [
   { id: 'tr1', patientId: '1', name: 'Complete Blood Count', category: 'Blood Test', date: subDays(today, 9).toISOString(), url: '#' },
   { id: 'tr2', patientId: '1', name: 'Chest X-Ray', category: 'X-Ray', date: subDays(today, 8).toISOString(), url: '#' },
-  { id: 'tr3', patientId: '2', name: 'HbA1c', category: 'Blood Test', date: subDays(today, 4).toISOString(), url: '#' },
+  { id: 'tr3', patientId: '2', name: 'Arterial Blood Gas', category: 'Blood Test', date: subDays(today, 1).toISOString(), url: '#' },
   { id: 'tr4', patientId: '8', name: 'Echocardiogram', category: 'X-Ray', date: subDays(today, 7).toISOString(), url: '#' },
+  { id: 'tr5', patientId: '2', name: 'Portable Chest X-Ray', category: 'X-Ray', date: subDays(today, 1).toISOString(), url: '#' },
+  { id: 'tr6', patientId: '9', name: 'RSV Test', category: 'Blood Test', date: subDays(today, 3).toISOString(), url: '#' },
 ];
 
 export const billings: Billing[] = [
@@ -160,11 +195,11 @@ export const billings: Billing[] = [
     {
         patientId: '2',
         items: [
-            { id: 'b4', description: 'Room Charge', quantity: 5, unitPrice: 200, total: 1000 },
-            { id: 'b5', description: 'Metformin', quantity: 5, unitPrice: 2, total: 10 },
-            { id: 'b6', description: 'HbA1c Test', quantity: 1, unitPrice: 75, total: 75 },
+            { id: 'b4', description: 'ICU Charge', quantity: 2, unitPrice: 1500, total: 3000 },
+            { id: 'b5', description: 'Metformin', quantity: 2, unitPrice: 4, total: 8 },
+            { id: 'b6', description: 'Arterial Blood Gas', quantity: 1, unitPrice: 120, total: 120 },
         ],
-        total: 1085,
+        total: 3128,
     },
      {
         patientId: '3',
@@ -199,10 +234,10 @@ export const billings: Billing[] = [
     {
         patientId: '8',
         items: [
-            { id: 'b13', description: 'Room Charge', quantity: 8, unitPrice: 250, total: 2000 },
+            { id: 'b13', description: 'ICU Charge', quantity: 8, unitPrice: 1500, total: 12000 },
             { id: 'b14', description: 'Echocardiogram', quantity: 1, unitPrice: 500, total: 500 },
         ],
-        total: 2500,
+        total: 12500,
     },
 ];
 
@@ -271,7 +306,7 @@ export const departments: Department[] = [
 
 export const appointments: Appointment[] = [
     { id: 'apt1', patientName: 'Jessica Brown', doctorName: 'Dr. Evelyn Reed', department: 'Cardiology', date: format(addDays(today, 2), 'yyyy-MM-dd'), time: '10:00 AM', status: 'Scheduled' },
-    { id: 'apt2', patientName: 'Robert Martinez', doctorName: 'Dr. Samuel Jones', department: 'Cardiology', date: format(addDays(today, 2), 'yyyy-MM-dd'), time: '11:00 AM', status: 'Scheduled' },
+    { id: 'apt2', patientName: 'Michael Smith', doctorName: 'Dr. Samuel Jones', department: 'Cardiology', date: format(addDays(today, 2), 'yyyy-MM-dd'), time: '11:00 AM', status: 'Scheduled' },
     { id: 'apt3', patientName: 'New Patient', doctorName: 'Dr. Arthur Crane', department: 'Neurology', date: format(addDays(today, 3), 'yyyy-MM-dd'), time: '11:30 AM', status: 'Scheduled' },
     { id: 'apt4', patientName: 'Former Patient', doctorName: 'Dr. Marcus Thorne', department: 'Orthopedics', date: format(subDays(today, 1), 'yyyy-MM-dd'), time: '09:00 AM', status: 'Completed' },
      { id: 'apt5', patientName: 'Guest User', doctorName: 'Dr. Sofia Rossi', department: 'Oncology', date: format(addDays(today, 1), 'yyyy-MM-dd'), time: '01:00 PM', status: 'Canceled' },
@@ -289,7 +324,7 @@ export const getAppointments = () => appointments;
 export const getAllDoctors = () => departments.flatMap(d => d.doctors.map(doc => ({ ...doc, department: d.name })));
 
 
-export function addPatient(patient: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId'>) {
+export function addPatient(patient: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId' | 'ward'>) {
     const newPatient: Patient = {
         ...patient,
         id: (patients.length + 1).toString(),
@@ -297,18 +332,20 @@ export function addPatient(patient: Omit<Patient, 'id' | 'status' | 'admissionDa
         status: 'Admitted',
         admissionDate: new Date().toISOString(),
         dischargeDate: null,
+        ward: getWard(patient.gender, patient.dateOfBirth),
     };
     patients.unshift(newPatient);
     return newPatient;
 }
 
-export function editPatient(patientId: string, patientData: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId'>) {
+export function editPatient(patientId: string, patientData: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId' | 'ward'>) {
     const patientIndex = patients.findIndex(p => p.id === patientId);
     if (patientIndex > -1) {
         const existingPatient = patients[patientIndex];
         patients[patientIndex] = {
             ...existingPatient,
             ...patientData,
+            ward: getWard(patientData.gender, patientData.dateOfBirth),
         };
         return patients[patientIndex];
     }

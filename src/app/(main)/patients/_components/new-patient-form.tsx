@@ -54,6 +54,7 @@ const formSchema = z.object({
   contact: z.string().min(5, 'Contact information is required.'),
   address: z.string().min(5, 'Address is required.'),
   medicalHistory: z.string().min(1, 'Medical history is required.'),
+  roomNumber: z.string().optional(),
 });
 
 type FormValues = z.infer<typeof formSchema>;
@@ -92,6 +93,7 @@ export function NewPatientForm({
         contact: patient.contact,
         address: patient.address,
         medicalHistory: patient.medicalHistory.join(', '),
+        roomNumber: patient.roomNumber,
       });
     } else if (!patient && open) {
       form.reset({
@@ -101,6 +103,7 @@ export function NewPatientForm({
         contact: '',
         address: '',
         medicalHistory: '',
+        roomNumber: '',
       });
     }
   }, [patient, open, form]);
@@ -153,7 +156,7 @@ export function NewPatientForm({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-md">
         <DialogHeader>
           <DialogTitle>
             {patient ? 'Edit Patient' : 'Add New Patient'}
@@ -251,19 +254,34 @@ export function NewPatientForm({
                 )}
               />
             </div>
-            <FormField
-              control={form.control}
-              name="contact"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Contact Number</FormLabel>
-                  <FormControl>
-                    <Input placeholder="555-123-4567" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="contact"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Contact Number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="555-123-4567" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="roomNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Room Number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="301A" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
             <FormField
               control={form.control}
               name="address"

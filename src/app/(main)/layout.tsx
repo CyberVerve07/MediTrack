@@ -21,6 +21,7 @@ import {
   Bell,
   CircleUser,
   CalendarDays,
+  HeartPulse,
 } from 'lucide-react';
 import { Logo } from '@/components/icons';
 import {
@@ -42,6 +43,11 @@ const menuItems = [
     href: '/patients',
     label: 'Patients',
     icon: Users,
+  },
+  {
+    href: '/icu',
+    label: 'ICU',
+    icon: HeartPulse,
   },
   {
     href: '/schedule',

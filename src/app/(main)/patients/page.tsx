@@ -30,10 +30,25 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { NewPatientForm } from './_components/new-patient-form';
 import { DischargePatientDialog } from './_components/discharge-patient-dialog';
+import { cn } from '@/lib/utils';
 
 function getPatientAge(dateOfBirth: string) {
   return differenceInYears(new Date(), new Date(dateOfBirth));
 }
+
+const getStatusClass = (status: Patient['status']) => {
+  switch (status) {
+    case 'Admitted':
+      return 'bg-blue-500/20 text-blue-700 border-blue-500/20';
+    case 'Discharged':
+      return 'bg-gray-500/20 text-gray-700 border-gray-500/20';
+    case 'ICU':
+      return 'bg-red-500/20 text-red-700 border-red-500/20';
+    default:
+      return 'bg-gray-500/20 text-gray-700 border-gray-500/20';
+  }
+};
+
 
 export default function PatientsPage() {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
@@ -72,6 +87,7 @@ export default function PatientsPage() {
                 <TableHead>Name</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead className="hidden md:table-cell">Age</TableHead>
+                <TableHead className="hidden md:table-cell">Ward</TableHead>
                 <TableHead className="hidden md:table-cell">
                   Admission Date
                 </TableHead>
@@ -109,20 +125,17 @@ export default function PatientsPage() {
                     </TableCell>
                     <TableCell>
                       <Badge
-                        variant={
-                          patient.status === 'Admitted'
-                            ? 'default'
-                            : 'secondary'
-                        }
-                        className={
-                          patient.status === 'Admitted' ? 'bg-green-600' : ''
-                        }
+                        variant="outline"
+                        className={cn('font-medium', getStatusClass(patient.status))}
                       >
                         {patient.status}
                       </Badge>
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
                       {getPatientAge(patient.dateOfBirth)}
+                    </TableCell>
+                    <TableCell className="hidden md:table-cell">
+                      {patient.ward}
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
                       {format(new Date(patient.admissionDate), 'MMMM d, yyyy')}

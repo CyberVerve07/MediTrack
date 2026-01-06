@@ -45,10 +45,11 @@ export async function generateNotesForPatient(
   }
 }
 
-export async function addPatient(formData: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId'>) {
+export async function addPatient(formData: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId' | 'ward'>) {
     try {
         addPatientData(formData);
         revalidatePath('/patients');
+        revalidatePath('/icu');
         return { success: true }
     } catch (error) {
         console.error('Failed to add patient:', error);
@@ -56,11 +57,12 @@ export async function addPatient(formData: Omit<Patient, 'id' | 'status' | 'admi
     }
 }
 
-export async function editPatient(patientId: string, formData: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId'>) {
+export async function editPatient(patientId: string, formData: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId' | 'ward'>) {
     try {
         editPatientData(patientId, formData);
         revalidatePath('/patients');
         revalidatePath(`/patients/${patientId}`);
+        revalidatePath('/icu');
         return { success: true }
     } catch (error) {
         console.error('Failed to edit patient:', error);
@@ -74,6 +76,7 @@ export async function dischargePatient(patientId: string) {
         dischargePatientData(patientId);
         revalidatePath('/patients');
         revalidatePath(`/patients/${patientId}`);
+        revalidatePath('/icu');
         return { success: true }
     } catch (error) {
         console.error('Failed to discharge patient:', error);
