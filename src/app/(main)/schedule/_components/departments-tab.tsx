@@ -28,7 +28,7 @@ export function DepartmentsTab() {
           <CardContent className="grid gap-4 flex-grow">
             <p className="text-sm text-white/90">{dept.description}</p>
             
-            <div className="bg-white/10 p-4 rounded-lg grid gap-4">
+            <div className="p-4 rounded-lg grid gap-4 bg-black/10">
                 <div className="flex items-center gap-3">
                     <Users className="h-5 w-5 shrink-0" />
                     <span className="text-sm">{dept.doctors.length} Doctors</span>
@@ -54,7 +54,7 @@ export function DepartmentsTab() {
                 </h4>
                 <div className="grid gap-3">
                     {dept.doctors.map(doc => (
-                        <div key={doc.id} className="text-sm bg-white/10 p-3 rounded-md">
+                        <div key={doc.id} className="text-sm p-3 rounded-md bg-black/10">
                             <p className="font-medium">{doc.name} <span className="text-xs text-white/80">({doc.specialty})</span></p>
                             <div className="flex items-center text-white/90 mt-1">
                                 <Clock className="mr-2 h-3 w-3" />
