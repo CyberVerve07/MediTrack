@@ -1,4 +1,6 @@
 
+'use client';
+
 import { getDepartments } from '@/lib/data';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Stethoscope, Calendar, Clock, Activity, Phone, Users } from 'lucide-react';
