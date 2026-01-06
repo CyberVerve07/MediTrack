@@ -1,3 +1,4 @@
+
 'use client';
 
 import { getDepartments } from '@/lib/data';
@@ -14,25 +15,26 @@ export default function DepartmentsPage() {
     'from-purple-500 to-violet-600',
     'from-red-500 to-rose-600',
     'from-yellow-500 to-amber-600',
+    'from-pink-500 to-fuchsia-600',
   ];
 
   return (
      <div className="flex flex-col gap-6">
       <h1 className="text-3xl font-bold tracking-tight">Hospital Departments</h1>
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
         {departments.map((dept, index) => (
-          <Card key={dept.id} className={cn("flex flex-col border-0 text-white shadow-lg", departmentColors[index % departmentColors.length])}>
+          <Card key={dept.id} className={cn("flex flex-col border-0 text-white shadow-lg transition-all hover:shadow-xl hover:-translate-y-1", departmentColors[index % departmentColors.length])}>
             <CardHeader>
-              <CardTitle className="font-bold">{dept.name}</CardTitle>
+              <CardTitle className="text-2xl font-bold">{dept.name}</CardTitle>
               <CardDescription className="text-white/80">Headed by: {dept.head}</CardDescription>
             </CardHeader>
-            <CardContent className="grid gap-4 flex-grow">
+            <CardContent className="grid gap-6 flex-grow">
               <p className="text-sm text-white/90">{dept.description}</p>
               
               <div className="p-4 rounded-lg grid gap-4 bg-black/20">
                   <div className="flex items-center gap-3">
                       <Users className="h-5 w-5 shrink-0" />
-                      <span className="text-sm">{dept.doctors.length} Doctors</span>
+                      <span className="text-sm font-medium">{dept.doctors.length} Doctors</span>
                   </div>
                   <div className="flex items-center gap-3">
                       <Phone className="h-5 w-5 shrink-0" />
