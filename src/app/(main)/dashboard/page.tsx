@@ -66,10 +66,10 @@ export default function DashboardPage() {
         <CardHeader className="relative flex flex-row items-center gap-4 space-y-0 p-8">
           <Hospital className="h-12 w-12 text-primary-foreground" />
           <div>
-            <CardTitle className="text-3xl font-bold text-primary-foreground tracking-tight">
+            <CardTitle className="text-4xl font-bold text-primary-foreground tracking-tight">
               Welcome to MediTrack Pro
             </CardTitle>
-            <p className="text-primary-foreground/80 mt-1">
+            <p className="text-primary-foreground/90 mt-2">
               Your comprehensive hospital management dashboard.
             </p>
           </div>
