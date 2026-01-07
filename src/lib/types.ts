@@ -78,6 +78,7 @@ export interface Department {
     opdSchedule: string;
     operationDays: string;
     contact?: string;
+    location?: string;
 }
 
 export interface Appointment {
