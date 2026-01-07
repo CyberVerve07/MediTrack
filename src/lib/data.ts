@@ -250,7 +250,7 @@ export const departments: Department[] = [
         location: 'Wing A, Floor 2',
         description: 'Specializes in heart-related conditions, from congenital heart defects to coronary artery disease.',
         opdSchedule: 'Mon, Wed, Fri (9 AM - 1 PM)',
-        operationDays: 'Tuesday & Thursday',
+        operationDays: 'Tuesday &amp; Thursday',
         contact: '555-1101',
         doctors: [
             { id: 'doc1', name: 'Dr. Evelyn Reed', specialty: 'Interventional Cardiology', availability: ['Mon', 'Wed', 'Fri'], opdDays: ['Mon', 'Wed'], opdHours: '9 AM - 11 AM' },
@@ -311,6 +311,34 @@ export const departments: Department[] = [
         doctors: [
             { id: 'doc9', name: 'Dr. Kenji Tanaka', specialty: 'Medical Oncology', availability: ['Mon', 'Wed'], opdDays: ['Mon', 'Wed'], opdHours: '10 AM - 1 PM' },
             { id: 'doc10', name: 'Dr. Sofia Rossi', specialty: 'Radiation Oncology', availability: ['Tue', 'Thu', 'Fri'], opdDays: ['Fri'], opdHours: '11 AM - 2 PM' },
+        ]
+    },
+    {
+        id: 'pedia',
+        name: 'Pediatrics',
+        head: 'Dr. Clara Oswald',
+        location: 'Wing C, Floor 1',
+        description: 'Provides medical care for infants, children, and adolescents.',
+        opdSchedule: 'Daily (9 AM - 5 PM)',
+        operationDays: 'N/A',
+        contact: '555-1106',
+        doctors: [
+            { id: 'doc11', name: 'Dr. Clara Oswald', specialty: 'General Pediatrics', availability: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], opdDays: ['Mon', 'Wed', 'Fri'], opdHours: '9 AM - 12 PM' },
+            { id: 'doc12', name: 'Dr. Ryan Sinclair', specialty: 'Pediatric Pulmonology', availability: ['Tue', 'Thu'], opdDays: ['Tue', 'Thu'], opdHours: '1 PM - 4 PM' },
+        ]
+    },
+    {
+        id: 'obgyn',
+        name: 'Obstetrics &amp; Gynecology',
+        head: 'Dr. Martha Jones',
+        location: 'Wing B, Floor 2',
+        description: 'Comprehensive care for women, including pregnancy, childbirth, and reproductive health.',
+        opdSchedule: 'Mon, Tue, Thu (8 AM - 3 PM)',
+        operationDays: 'Wednesday',
+        contact: '555-1107',
+        doctors: [
+            { id: 'doc13', name: 'Dr. Martha Jones', specialty: 'Obstetrics', availability: ['Mon', 'Tue', 'Thu'], opdDays: ['Mon', 'Thu'], opdHours: '8 AM - 12 PM' },
+            { id: 'doc14', name: 'Dr. Donna Noble', specialty: 'Gynecologic Oncology', availability: ['Tue', 'Wed'], opdDays: ['Tue'], opdHours: '1 PM - 4 PM' },
         ]
     },
 ];
