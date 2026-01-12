@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -72,6 +72,17 @@ export function NewAppointmentForm({ children }: { children: React.ReactNode }) 
 
   const selectedDoctorId = form.watch('doctor');
   const selectedDoctor = doctors.find(d => d.id === selectedDoctorId);
+
+  useEffect(() => {
+    if (open) {
+      form.reset({
+        patientName: '',
+        doctor: undefined,
+        date: undefined,
+        time: '',
+      });
+    }
+  }, [open, form]);
 
   async function onSubmit(values: FormValues) {
     if (!selectedDoctor) {
@@ -197,7 +208,7 @@ export function NewAppointmentForm({ children }: { children: React.ReactNode }) 
                           mode="single"
                           selected={field.value}
                           onSelect={field.onChange}
-                          disabled={(date) => date < new Date() || date < new Date("1900-01-01")}
+                          disabled={(date) => date < new Date(new Date().setHours(0,0,0,0))}
                           initialFocus
                         />
                       </PopoverContent>

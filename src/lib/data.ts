@@ -242,7 +242,7 @@ export const billings: Billing[] = [
     },
 ];
 
-export const departments: Department[] = [
+export let departments: Department[] = [
     {
         id: 'cardio',
         name: 'Cardiology',
@@ -250,7 +250,7 @@ export const departments: Department[] = [
         location: 'Wing A, Floor 2',
         description: 'Specializes in heart-related conditions, from congenital heart defects to coronary artery disease.',
         opdSchedule: 'Mon, Wed, Fri (9 AM - 1 PM)',
-        operationDays: 'Tuesday &amp; Thursday',
+        operationDays: 'Tuesday & Thursday',
         contact: '555-1101',
         doctors: [
             { id: 'doc1', name: 'Dr. Evelyn Reed', specialty: 'Interventional Cardiology', availability: ['Mon', 'Wed', 'Fri'], opdDays: ['Mon', 'Wed'], opdHours: '9 AM - 11 AM' },
@@ -329,7 +329,7 @@ export const departments: Department[] = [
     },
     {
         id: 'obgyn',
-        name: 'Obstetrics &amp; Gynecology',
+        name: 'Obstetrics & Gynecology',
         head: 'Dr. Martha Jones',
         location: 'Wing B, Floor 2',
         description: 'Comprehensive care for women, including pregnancy, childbirth, and reproductive health.',

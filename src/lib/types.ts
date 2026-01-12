@@ -70,7 +70,7 @@ export interface Doctor {
 }
 
 export interface Department {
-    id: string;
+    id: 'cardio' | 'neuro' | 'ortho' | 'radio' | 'onco' | 'pedia' | 'obgyn' | string;
     name: string;
     head: string;
     description: string;
