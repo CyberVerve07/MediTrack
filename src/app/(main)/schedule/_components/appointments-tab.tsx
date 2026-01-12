@@ -1,5 +1,6 @@
+
 import { getAppointments } from '@/lib/data';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import {
   Table,
   TableBody,
@@ -18,13 +19,13 @@ export function AppointmentsTab() {
   const getStatusClass = (status: string) => {
     switch (status) {
       case 'Scheduled':
-        return 'bg-blue-500';
+        return 'bg-blue-500 hover:bg-blue-500/90';
       case 'Completed':
-        return 'bg-green-600';
+        return 'bg-green-600 hover:bg-green-600/90';
       case 'Canceled':
-        return 'bg-red-500';
+        return 'bg-red-500 hover:bg-red-500/90';
       default:
-        return 'bg-gray-500';
+        return 'bg-gray-500 hover:bg-gray-500/90';
     }
   };
 
@@ -32,6 +33,7 @@ export function AppointmentsTab() {
     <Card>
       <CardHeader>
         <CardTitle>Upcoming & Recent Appointments</CardTitle>
+        <CardDescription>A log of all scheduled, completed, and canceled appointments.</CardDescription>
       </CardHeader>
       <CardContent>
         <Table>

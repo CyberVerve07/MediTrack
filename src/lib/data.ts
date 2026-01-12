@@ -343,7 +343,7 @@ export const departments: Department[] = [
     },
 ];
 
-export const appointments: Appointment[] = [
+export let appointments: Appointment[] = [
     { id: 'apt1', patientName: 'Jessica Brown', doctorName: 'Dr. Evelyn Reed', department: 'Cardiology', date: format(addDays(today, 2), 'yyyy-MM-dd'), time: '10:00 AM', status: 'Scheduled' },
     { id: 'apt2', patientName: 'Michael Smith', doctorName: 'Dr. Samuel Jones', department: 'Cardiology', date: format(addDays(today, 2), 'yyyy-MM-dd'), time: '11:00 AM', status: 'Scheduled' },
     { id: 'apt3', patientName: 'New Patient', doctorName: 'Dr. Arthur Crane', department: 'Neurology', date: format(addDays(today, 3), 'yyyy-MM-dd'), time: '11:30 AM', status: 'Scheduled' },
@@ -359,7 +359,7 @@ export const getMedicationsByPatientId = (patientId: string) => medications.filt
 export const getTestReportsByPatientId = (patientId: string) => testReports.filter(r => r.patientId === patientId);
 export const getBillingByPatientId = (patientId: string) => billings.find(b => b.patientId === patientId);
 export const getDepartments = () => departments;
-export const getAppointments = () => appointments;
+export const getAppointments = () => appointments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 export const getAllDoctors = () => departments.flatMap(d => d.doctors.map(doc => ({ ...doc, department: d.name })));
 
 
@@ -410,4 +410,14 @@ export function addVitalSign(patientId: string, vitalData: Omit<VitalSign, 'id' 
     };
     vitalSigns.push(newVital);
     return newVital;
+}
+
+export function addAppointment(appointment: Omit<Appointment, 'id' | 'status'>) {
+    const newAppointment: Appointment = {
+        ...appointment,
+        id: `apt${appointments.length + 1}`,
+        status: 'Scheduled',
+    };
+    appointments.unshift(newAppointment);
+    return newAppointment;
 }
