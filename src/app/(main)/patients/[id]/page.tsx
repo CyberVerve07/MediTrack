@@ -1,3 +1,4 @@
+
 import { notFound } from 'next/navigation';
 import {
   getPatientById,
@@ -5,6 +6,7 @@ import {
   getMedicationsByPatientId,
   getTestReportsByPatientId,
   getBillingByPatientId,
+  getMealsByPatientId,
 } from '@/lib/data';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
@@ -14,6 +16,7 @@ import {
   FileText,
   DollarSign,
   PenSquare,
+  Utensils,
 } from 'lucide-react';
 
 import { PatientHeader } from './_components/patient-header';
@@ -23,6 +26,7 @@ import { MedicationTab } from './_components/medication-tab';
 import { ReportsTab } from './_components/reports-tab';
 import { BillingTab } from './_components/billing-tab';
 import { ImprovementNotesTab } from './_components/improvement-notes-tab';
+import { MealsTab } from './_components/meals-tab';
 
 export default function PatientDetailPage({
   params,
@@ -38,11 +42,13 @@ export default function PatientDetailPage({
   const medications = getMedicationsByPatientId(params.id);
   const reports = getTestReportsByPatientId(params.id);
   const billing = getBillingByPatientId(params.id);
+  const meals = getMealsByPatientId(params.id);
 
   const tabs = [
     { value: 'profile', label: 'Profile', icon: User, component: <ProfileTab patient={patient} /> },
-    { value: 'vitals', label: 'Vitals', icon: HeartPulse, component: <VitalsTab vitals={vitals} /> },
+    { value: 'vitals', label: 'Vitals', icon: HeartPulse, component: <VitalsTab patient={patient} vitals={vitals} /> },
     { value: 'medication', label: 'Medication', icon: Pill, component: <MedicationTab medications={medications} /> },
+    { value: 'meals', label: 'Meals', icon: Utensils, component: <MealsTab meals={meals} /> },
     { value: 'reports', label: 'Reports', icon: FileText, component: <ReportsTab reports={reports} /> },
     { value: 'billing', label: 'Billing', icon: DollarSign, component: <BillingTab billing={billing} /> },
     { value: 'notes', label: 'AI Notes', icon: PenSquare, component: <ImprovementNotesTab patient={patient} vitals={vitals} medications={medications} reports={reports} /> },
@@ -52,7 +58,7 @@ export default function PatientDetailPage({
     <div className="flex flex-col gap-6">
       <PatientHeader patient={patient} />
       <Tabs defaultValue="profile">
-        <TabsList className="grid w-full grid-cols-3 sm:grid-cols-6">
+        <TabsList className="grid w-full grid-cols-4 md:grid-cols-7">
           {tabs.map(tab => (
             <TabsTrigger key={tab.value} value={tab.value}>
               <tab.icon className="mr-2 h-4 w-4" />

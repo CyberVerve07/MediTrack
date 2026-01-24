@@ -1,5 +1,5 @@
 
-import { Patient, VitalSign, Medication, TestReport, Billing, Department, Appointment } from './types';
+import { Patient, VitalSign, Medication, TestReport, Billing, Department, Appointment, Meal, MealItem } from './types';
 import { subDays, format, addDays, differenceInYears } from 'date-fns';
 
 const today = new Date();
@@ -352,6 +352,44 @@ export let appointments: Appointment[] = [
 ];
 
 
+export const foodItems: MealItem[] = [
+  { id: 'f1', name: 'Milk' },
+  { id: 'f2', name: 'Rice' },
+  { id: 'f3', name: 'Eggs' },
+  { id: 'f4', name: 'Bread' },
+  { id: 'f5', name: 'Moong Dal' },
+  { id: 'f6', name: 'Soji' },
+  { id: 'f7', name: 'Daliya' },
+  { id: 'f8', name: 'Tea' },
+  { id: 'f9', name: 'Coffee' },
+  { id: 'f10', name: 'Curd' },
+  { id: 'f11', name: 'Salad' },
+  { id: 'f12', name: 'Apple' },
+  { id: 'f13', name: 'Banana' },
+  { id: 'f14', name: 'Vegetable Soup' },
+];
+
+export let meals: Meal[] = [
+  // Patient 1
+  { id: 'ml1', patientId: '1', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Breakfast', items: [foodItems[3], foodItems[0], foodItems[12]] }, // Bread, Milk, Apple
+  { id: 'ml2', patientId: '1', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Lunch', items: [foodItems[1], foodItems[4], foodItems[10], foodItems[11]] }, // Rice, Moong Dal, Curd, Salad
+  { id: 'ml3', patientId: '1', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Snacks', items: [foodItems[7], foodItems[13]] }, // Tea, Banana
+  { id: 'ml4', patientId: '1', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Dinner', items: [foodItems[6], foodItems[14]] }, // Daliya, Vegetable Soup
+  
+  { id: 'ml5', patientId: '1', date: format(today, 'yyyy-MM-dd'), type: 'Breakfast', items: [foodItems[5], foodItems[3]] }, // Soji, Bread
+  { id: 'ml6', patientId: '1', date: format(today, 'yyyy-MM-dd'), type: 'Lunch', items: [foodItems[1], foodItems[4], foodItems[10]] }, // Rice, Moong Dal, Curd
+  
+  // Patient 2 (ICU) - might have a different diet
+  { id: 'ml7', patientId: '2', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Breakfast', items: [foodItems[6]] }, // Daliya
+  { id: 'ml8', patientId: '2', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Lunch', items: [foodItems[14], foodItems[4]] }, // Vegetable Soup, Moong Dal
+  { id: 'ml9', patientId: '2', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Dinner', items: [foodItems[5]] }, // Soji
+
+  // Patient 5
+  { id: 'ml10', patientId: '5', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Breakfast', items: [foodItems[3], foodItems[2]] }, // Bread, Eggs
+  { id: 'ml11', patientId: '5', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Lunch', items: [foodItems[1], foodItems[4], foodItems[11]] }, // Rice, Moong Dal, Salad
+];
+
+
 // Helper functions to get data by ID
 export const getPatientById = (id: string) => patients.find(p => p.id === id);
 export const getVitalsByPatientId = (patientId: string) => vitalSigns.filter(v => v.patientId === patientId).sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
@@ -361,6 +399,7 @@ export const getBillingByPatientId = (patientId: string) => billings.find(b => b
 export const getDepartments = () => departments;
 export const getAppointments = () => appointments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 export const getAllDoctors = () => departments.flatMap(d => d.doctors.map(doc => ({ ...doc, department: d.name })));
+export const getMealsByPatientId = (patientId: string) => meals.filter(m => m.patientId === patientId).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 
 export function addPatient(patient: Omit<Patient, 'id' | 'status' | 'admissionDate' | 'dischargeDate' | 'avatarId' | 'ward'>) {

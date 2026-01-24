@@ -90,3 +90,16 @@ export interface Appointment {
     time: string;
     status: 'Scheduled' | 'Completed' | 'Canceled';
 }
+
+export interface MealItem {
+  id: string;
+  name: string;
+}
+
+export interface Meal {
+  id: string;
+  patientId: string;
+  date: string;
+  type: 'Breakfast' | 'Lunch' | 'Snacks' | 'Dinner';
+  items: MealItem[];
+}
