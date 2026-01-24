@@ -24,6 +24,7 @@ import {
   CalendarDays,
   HeartPulse,
   Building,
+  Utensils,
 } from 'lucide-react';
 import { Logo } from '@/components/icons';
 import {
@@ -60,6 +61,11 @@ const menuItems = [
     href: '/schedule',
     label: 'Schedule',
     icon: CalendarDays,
+  },
+  {
+    href: '/meals',
+    label: 'Meals',
+    icon: Utensils,
   },
 ];
 

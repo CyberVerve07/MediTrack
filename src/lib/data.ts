@@ -399,6 +399,10 @@ export const getBillingByPatientId = (patientId: string) => billings.find(b => b
 export const getDepartments = () => departments;
 export const getAppointments = () => appointments.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 export const getAllDoctors = () => departments.flatMap(d => d.doctors.map(doc => ({ ...doc, department: d.name })));
+export const getTodaysMeals = () => {
+    const todayStr = format(new Date(), 'yyyy-MM-dd');
+    return meals.filter(m => m.date === todayStr);
+}
 export const getMealsByPatientId = (patientId: string) => meals.filter(m => m.patientId === patientId).sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
 
