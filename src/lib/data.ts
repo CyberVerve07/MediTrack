@@ -376,15 +376,15 @@ export let meals: Meal[] = [
   { id: 'ml3', patientId: '1', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Breakfast', items: [foodItems[3], foodItems[0], foodItems[12]] },
   { id: 'ml4', patientId: '1', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Lunch', items: [foodItems[1], foodItems[4], foodItems[10], foodItems[11]] },
   { id: 'ml5', patientId: '1', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Snacks', items: [foodItems[7], foodItems[13]] },
-  { id: 'ml6', patientId: '1', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Dinner', items: [foodItems[6], foodItems[14]] },
+  { id: 'ml6', patientId: '1', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Dinner', items: [foodItems[6], foodItems[13]] },
   { id: 'ml7', patientId: '1', date: format(today, 'yyyy-MM-dd'), type: 'Breakfast', items: [foodItems[5], foodItems[3]] },
   { id: 'ml8', patientId: '1', date: format(today, 'yyyy-MM-dd'), type: 'Lunch', items: [foodItems[1], foodItems[4], foodItems[10]] },
   
   // Patient 2 (Rohan Mehra) - ICU
   { id: 'ml9', patientId: '2', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Breakfast', items: [foodItems[6]] },
-  { id: 'ml10', patientId: '2', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Lunch', items: [foodItems[14], foodItems[4]] },
+  { id: 'ml10', patientId: '2', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Lunch', items: [foodItems[13], foodItems[4]] },
   { id: 'ml11', patientId: '2', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Dinner', items: [foodItems[5]] },
-  { id: 'ml12', patientId: '2', date: format(today, 'yyyy-MM-dd'), type: 'Breakfast', items: [foodItems[14]] },
+  { id: 'ml12', patientId: '2', date: format(today, 'yyyy-MM-dd'), type: 'Breakfast', items: [foodItems[13]] },
   { id: 'ml13', patientId: '2', date: format(today, 'yyyy-MM-dd'), type: 'Lunch', items: [foodItems[6]] },
 
 
@@ -395,7 +395,7 @@ export let meals: Meal[] = [
   { id: 'ml17', patientId: '5', date: format(subDays(today, 1), 'yyyy-MM-dd'), type: 'Lunch', items: [foodItems[1], foodItems[4], foodItems[10]] },
   { id: 'ml18', patientId: '5', date: format(today, 'yyyy-MM-dd'), type: 'Breakfast', items: [foodItems[3], foodItems[8]] },
   { id: 'ml19', patientId: '5', date: format(today, 'yyyy-MM-dd'), type: 'Lunch', items: [foodItems[1], foodItems[4], foodItems[11], foodItems[10]] },
-  { id: 'ml20', patientId: '5', date: format(today, 'yyyy-MM-dd'), type: 'Dinner', items: [foodItems[6], foodItems[14]] },
+  { id: 'ml20', patientId: '5', date: format(today, 'yyyy-MM-dd'), type: 'Dinner', items: [foodItems[6], foodItems[13]] },
 
   // Patient 6 (Arjun Desai)
   { id: 'ml21', patientId: '6', date: format(today, 'yyyy-MM-dd'), type: 'Breakfast', items: [foodItems[3], foodItems[0]] },
