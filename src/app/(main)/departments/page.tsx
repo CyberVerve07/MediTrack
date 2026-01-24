@@ -39,13 +39,13 @@ export default function DepartmentsPage() {
 
 function DepartmentCard({ department, gradient }: { department: Department, gradient: string }) {
     return (
-        <Card className={`relative overflow-hidden text-white shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${gradient}`}>
+        <Card className={`relative overflow-hidden text-primary-foreground shadow-lg transition-transform duration-300 [transform-style:preserve-3d] hover:shadow-2xl hover:[transform:perspective(1000px)_rotateX(2deg)_translateY(-0.25rem)] bg-gradient-to-br ${gradient}`}>
             <CardHeader className="relative flex flex-col gap-2 p-6">
                 <div className='flex items-center gap-3'>
                     <Building className="h-8 w-8" />
                     <CardTitle className="text-2xl font-bold tracking-tight">{department.name}</CardTitle>
                 </div>
-                 <CardDescription className="text-white/80">{department.description}</CardDescription>
+                 <CardDescription className="text-primary-foreground/80">{department.description}</CardDescription>
             </CardHeader>
             <CardContent className="relative p-6 pt-0 text-sm">
                 <div className="space-y-3">
@@ -53,22 +53,22 @@ function DepartmentCard({ department, gradient }: { department: Department, grad
                     <InfoItem icon={MapPin} label="Location" value={department.location} />
                     <InfoItem icon={Phone} label="Contact" value={department.contact} />
                 </div>
-                <Separator className="my-4 bg-white/20" />
+                <Separator className="my-4 bg-primary-foreground/20" />
                 <div>
                     <h4 className="mb-3 text-base font-semibold">Doctors</h4>
                     <div className="space-y-3">
                         {department.doctors.map(doctor => (
                             <div key={doctor.id} className="flex items-start justify-between gap-2 text-xs">
                                 <div className='flex items-center gap-2'>
-                                    <User className="h-4 w-4 text-white/80" />
+                                    <User className="h-4 w-4 text-primary-foreground/80" />
                                     <div>
                                         <p className="font-semibold">{doctor.name}</p>
-                                        <p className="text-white/80">{doctor.specialty}</p>
+                                        <p className="text-primary-foreground/80">{doctor.specialty}</p>
                                     </div>
                                 </div>
                                 <div className="text-right">
                                     <p className="font-semibold">{doctor.opdDays.join(', ')}</p>
-                                    <p className="text-white/80">{doctor.opdHours}</p>
+                                    <p className="text-primary-foreground/80">{doctor.opdHours}</p>
                                 </div>
                             </div>
                         ))}
@@ -83,9 +83,9 @@ function InfoItem({ icon: Icon, label, value }: { icon: React.ElementType, label
     if (!value) return null;
     return (
         <div className="flex items-center gap-3">
-            <Icon className="h-4 w-4 text-white/80" />
+            <Icon className="h-4 w-4 text-primary-foreground/80" />
             <span className='font-semibold'>{label}:</span>
-            <span className="text-white/90">{value}</span>
+            <span className="text-primary-foreground/90">{value}</span>
         </div>
     )
 }

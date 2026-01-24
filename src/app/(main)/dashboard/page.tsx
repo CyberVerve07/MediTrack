@@ -24,7 +24,7 @@ export default function DashboardPage() {
       icon: Users,
       href: '/patients',
       description: 'All-time patient records',
-      color: 'from-blue-500 to-blue-600',
+      color: 'from-primary to-blue-400',
     },
     {
       title: 'Currently Admitted',
@@ -32,7 +32,7 @@ export default function DashboardPage() {
       icon: Bed,
       href: '/patients',
       description: 'Patients in care',
-      color: 'from-green-500 to-green-600',
+      color: 'from-green-500 to-emerald-400',
     },
     {
       title: 'Vitals Monitored',
@@ -40,7 +40,7 @@ export default function DashboardPage() {
       icon: Activity,
       href: '#',
       description: 'Total readings today',
-      color: 'from-yellow-500 to-yellow-600',
+      color: 'from-amber-500 to-orange-400',
     },
     {
       title: 'Discharged',
@@ -48,7 +48,7 @@ export default function DashboardPage() {
       icon: CheckCircle,
       href: '/patients',
       description: 'Completed treatments',
-      color: 'from-gray-500 to-gray-600',
+      color: 'from-slate-500 to-gray-400',
     },
   ];
 
@@ -79,8 +79,8 @@ export default function DashboardPage() {
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {stats.map(stat => (
           <Link href={stat.href} key={stat.title}>
-            <Card className="group relative overflow-hidden shadow-md transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-               <div className={`absolute -right-10 -top-10 h-24 w-24 rounded-full bg-gradient-to-br ${stat.color} opacity-20 transition-all duration-500 group-hover:scale-[8]`} />
+            <Card className="group relative overflow-hidden shadow-md transition-transform duration-300 [transform-style:preserve-3d] hover:shadow-xl hover:[transform:perspective(1000px)_rotateX(4deg)_translateY(-0.25rem)]">
+               <div className={`absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br ${stat.color} opacity-15 transition-all duration-500 group-hover:scale-[10] group-hover:-rotate-12`} />
               <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
                   {stat.title}
@@ -109,7 +109,7 @@ export default function DashboardPage() {
             </div>
           </CardContent>
         </Card>
-         <Card className="bg-gradient-to-br from-accent to-blue-500 text-white">
+         <Card className="bg-gradient-to-br from-accent to-primary text-accent-foreground">
           <CardHeader>
             <CardTitle className="font-bold">Quick Actions</CardTitle>
           </CardHeader>
