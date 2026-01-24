@@ -1,6 +1,4 @@
 
-const genkitNext = require('@genkit-ai/next');
-const withGenkit = genkitNext.withGenkit;
 import type {NextConfig} from 'next';
 
 const nextConfig: NextConfig = {
