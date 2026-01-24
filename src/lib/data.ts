@@ -492,3 +492,12 @@ export function updateMeal(mealId: string, newItemIds: string[]) {
     }
     return null;
 }
+
+export function updatePatientImprovementNotes(patientId: string, notes: string) {
+    const patientIndex = patients.findIndex(p => p.id === patientId);
+    if (patientIndex > -1) {
+        patients[patientIndex].improvementNotes = notes;
+        return patients[patientIndex];
+    }
+    return null;
+}

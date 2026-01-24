@@ -15,7 +15,7 @@ import {
   Pill,
   FileText,
   DollarSign,
-  PenSquare,
+  Sparkles,
   Utensils,
 } from 'lucide-react';
 
@@ -51,7 +51,7 @@ export default function PatientDetailPage({
     { value: 'meals', label: 'Meals', icon: Utensils, component: <MealsTab patient={patient} meals={meals} /> },
     { value: 'reports', label: 'Reports', icon: FileText, component: <ReportsTab reports={reports} /> },
     { value: 'billing', label: 'Billing', icon: DollarSign, component: <BillingTab billing={billing} /> },
-    { value: 'notes', label: 'AI Notes', icon: PenSquare, component: <ImprovementNotesTab patient={patient} vitals={vitals} medications={medications} reports={reports} /> },
+    { value: 'notes', label: 'AI Health Tracker', icon: Sparkles, component: <ImprovementNotesTab patient={patient} vitals={vitals} medications={medications} reports={reports} /> },
   ];
 
   return (

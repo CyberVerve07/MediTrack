@@ -7,7 +7,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Sparkles, LoaderCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import { generateNotesForPatient } from '../actions';
+import { generateNotesForPatient, savePatientNotes } from '../actions';
 
 type ImprovementNotesTabProps = {
   patient: Patient;
@@ -24,6 +24,7 @@ export function ImprovementNotesTab({
 }: ImprovementNotesTabProps) {
   const [notes, setNotes] = useState(patient.improvementNotes || '');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
   const { toast } = useToast();
 
   const handleGenerateNotes = async () => {
@@ -58,10 +59,34 @@ export function ImprovementNotesTab({
     }
   };
 
+  const handleSaveNotes = async () => {
+    setIsSaving(true);
+    try {
+      const result = await savePatientNotes(patient.id, notes);
+      if (result.success) {
+        toast({
+          title: 'Notes Saved',
+          description: 'Patient improvement notes have been saved.',
+        });
+      } else {
+        throw new Error(result.error || 'An unknown error occurred');
+      }
+    } catch (error) {
+      console.error('Failed to save notes:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Save Failed',
+        description: 'Could not save notes at this time. Please try again.',
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Improvement Notes</CardTitle>
+        <CardTitle>AI Health History Tracker</CardTitle>
       </CardHeader>
       <CardContent className="grid gap-4">
         <Textarea
@@ -73,7 +98,7 @@ export function ImprovementNotesTab({
         <div className="flex justify-end gap-2">
           <Button
             onClick={handleGenerateNotes}
-            disabled={isLoading}
+            disabled={isLoading || isSaving}
             variant="outline"
           >
             {isLoading ? (
@@ -83,7 +108,10 @@ export function ImprovementNotesTab({
             )}
             Generate with AI
           </Button>
-          <Button>Save Notes</Button>
+          <Button onClick={handleSaveNotes} disabled={isSaving || isLoading}>
+            {isSaving && <LoaderCircle className="mr-2 h-4 w-4 animate-spin" />}
+            Save Notes
+          </Button>
         </div>
       </CardContent>
     </Card>

@@ -51,19 +51,22 @@ const generatePatientImprovementNotesPrompt = ai.definePrompt({
   name: 'generatePatientImprovementNotesPrompt',
   input: {schema: GeneratePatientImprovementNotesInputSchema},
   output: {schema: GeneratePatientImprovementNotesOutputSchema},
-  prompt: `You are an AI assistant specialized in generating improvement notes for patients based on their medical data.
+  prompt: `You are an AI medical assistant designed to track and summarize a patient's health history.
+  
+  Analyze the complete medical record provided below to generate a concise summary of the patient's health journey. Your summary should highlight key trends, significant medical events, response to treatments, and overall progress. The goal is to provide a clear, structured overview that helps medical staff quickly understand the patient's history and current status.
 
-  Given the following patient information, generate concise and informative improvement notes that can assist nurses in providing targeted care.
+  If previous AI-generated notes exist, integrate them into your new summary, refining and updating them with the latest information.
 
-  Patient Details: {{{patientDetails}}}
-  Health Status: {{{healthStatus}}}
-  Vital Signs: {{{vitalSigns}}}
-  Ongoing Treatments: {{{ongoingTreatments}}}
-  Medicines Given: {{{medicinesGiven}}}
-  Previous Improvement Notes: {{{improvementNotes}}}
-  Test Reports: {{{testReports}}}
-
-  Please provide improvement notes that are clear, relevant, and actionable.
+  **Patient's Medical Data:**
+  - **Patient Details:** {{{patientDetails}}}
+  - **Current Health Status:** {{{healthStatus}}}
+  - **Timeline of Vital Signs:** {{{vitalSigns}}}
+  - **Administered Medications:** {{{medicinesGiven}}}
+  - **Diagnostic Test Reports:** {{{testReports}}}
+  - **Previous AI Summary:** {{{improvementNotes}}}
+  - **Ongoing Treatments:** {{{ongoingTreatments}}}
+  
+  Generate the updated summary below.
   `,
 });
 

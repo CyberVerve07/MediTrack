@@ -2,7 +2,7 @@
 'use server';
 
 import { generatePatientImprovementNotes } from '@/ai/flows/generate-patient-improvement-notes';
-import { addPatient as addPatientData, dischargePatient as dischargePatientData, editPatient as editPatientData, addVitalSign as addVitalSignData, updateMeal as updateMealData } from '@/lib/data';
+import { addPatient as addPatientData, dischargePatient as dischargePatientData, editPatient as editPatientData, addVitalSign as addVitalSignData, updateMeal as updateMealData, updatePatientImprovementNotes } from '@/lib/data';
 import type { Patient, VitalSign, Medication, TestReport } from '@/lib/types';
 import { revalidatePath } from 'next/cache';
 
@@ -105,5 +105,16 @@ export async function updatePatientMeal(patientId: string, mealId: string, newIt
     } catch (error) {
         console.error('Failed to update meal:', error);
         return { success: false, error: 'Failed to update meal.' };
+    }
+}
+
+export async function savePatientNotes(patientId: string, notes: string) {
+    try {
+        updatePatientImprovementNotes(patientId, notes);
+        revalidatePath(`/patients/${patientId}`);
+        return { success: true };
+    } catch (error) {
+        console.error('Failed to save notes:', error);
+        return { success: false, error: 'Failed to save notes.' };
     }
 }
