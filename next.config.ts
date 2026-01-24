@@ -34,3 +34,5 @@ const nextConfig: NextConfig = {
 };
 
 module.exports = withGenkit(nextConfig);
+
+    
