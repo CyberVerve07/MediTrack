@@ -482,3 +482,13 @@ export function addAppointment(appointment: Omit<Appointment, 'id' | 'status'>) 
     appointments.unshift(newAppointment);
     return newAppointment;
 }
+
+export function updateMeal(mealId: string, newItemIds: string[]) {
+    const mealIndex = meals.findIndex(m => m.id === mealId);
+    if (mealIndex > -1) {
+        const newItems = foodItems.filter(item => newItemIds.includes(item.id));
+        meals[mealIndex].items = newItems;
+        return meals[mealIndex];
+    }
+    return null;
+}

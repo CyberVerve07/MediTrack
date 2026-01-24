@@ -48,7 +48,7 @@ export default function PatientDetailPage({
     { value: 'profile', label: 'Profile', icon: User, component: <ProfileTab patient={patient} /> },
     { value: 'vitals', label: 'Vitals', icon: HeartPulse, component: <VitalsTab patient={patient} vitals={vitals} /> },
     { value: 'medication', label: 'Medication', icon: Pill, component: <MedicationTab medications={medications} /> },
-    { value: 'meals', label: 'Meals', icon: Utensils, component: <MealsTab meals={meals} /> },
+    { value: 'meals', label: 'Meals', icon: Utensils, component: <MealsTab patient={patient} meals={meals} /> },
     { value: 'reports', label: 'Reports', icon: FileText, component: <ReportsTab reports={reports} /> },
     { value: 'billing', label: 'Billing', icon: DollarSign, component: <BillingTab billing={billing} /> },
     { value: 'notes', label: 'AI Notes', icon: PenSquare, component: <ImprovementNotesTab patient={patient} vitals={vitals} medications={medications} reports={reports} /> },

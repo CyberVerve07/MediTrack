@@ -1,15 +1,21 @@
 
-import type { Meal } from '@/lib/types';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+'use client';
+
+import type { Meal, Patient } from '@/lib/types';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Utensils } from 'lucide-react';
+import { Utensils, Edit } from 'lucide-react';
 import { format } from 'date-fns';
+import { foodItems } from '@/lib/data';
+import { EditMealDialog } from './edit-meal-dialog';
+import { Button } from '@/components/ui/button';
 
 type MealsTabProps = {
+  patient: Patient;
   meals: Meal[];
 };
 
-export function MealsTab({ meals }: MealsTabProps) {
+export function MealsTab({ patient, meals }: MealsTabProps) {
   if (meals.length === 0) {
     return (
       <Card>
@@ -54,16 +60,28 @@ export function MealsTab({ meals }: MealsTabProps) {
               );
 
               return (
-                <div key={mealType} className="flex flex-col gap-3 rounded-lg border p-4 bg-background shadow-sm">
-                  <h3 className="font-semibold flex items-center gap-2 text-muted-foreground">
-                     <Utensils className="h-4 w-4" /> {mealType}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {meal.items.map(item => (
-                      <Badge key={item.id} variant="secondary" className="font-normal text-sm">
-                        {item.name}
-                      </Badge>
-                    ))}
+                <div key={meal.id} className="flex flex-col gap-3 rounded-lg border p-4 bg-background shadow-sm">
+                   <div className="flex items-center justify-between">
+                    <h3 className="font-semibold flex items-center gap-2 text-muted-foreground">
+                       <Utensils className="h-4 w-4" /> {mealType}
+                    </h3>
+                    <EditMealDialog patientId={patient.id} meal={meal} allFoodItems={foodItems}>
+                        <Button variant="ghost" size="icon" className="h-7 w-7">
+                            <Edit className="h-4 w-4" />
+                            <span className="sr-only">Edit Meal</span>
+                        </Button>
+                    </EditMealDialog>
+                  </div>
+                  <div className="flex flex-wrap gap-2 min-h-[40px]">
+                    {meal.items.length > 0 ? (
+                        meal.items.map(item => (
+                            <Badge key={item.id} variant="secondary" className="font-normal text-sm">
+                                {item.name}
+                            </Badge>
+                        ))
+                    ) : (
+                        <p className="text-xs text-muted-foreground self-center">No items assigned.</p>
+                    )}
                   </div>
                 </div>
               );
