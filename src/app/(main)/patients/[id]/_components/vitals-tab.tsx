@@ -52,7 +52,7 @@ const vitalsFormSchema = z.object({
 type VitalsFormValues = z.infer<typeof vitalsFormSchema>;
 
 export function VitalsTab({ patient, vitals }: VitalsTabProps) {
-  const latestVitals = vitals.length > 0 ? vitals[vitals.length - 1] : ({} as VitalSign);
+  const latestVitals = vitals.length > 0 ? vitals[vitals.length - 1] : null;
   const { toast } = useToast();
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -110,7 +110,7 @@ export function VitalsTab({ patient, vitals }: VitalsTabProps) {
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{latestVitals.bloodPressure || 'N/A'}</div>
+            <div className="text-2xl font-bold">{latestVitals?.bloodPressure || 'N/A'}</div>
             <p className="text-xs text-muted-foreground">Latest reading</p>
           </CardContent>
         </Card>
@@ -120,7 +120,7 @@ export function VitalsTab({ patient, vitals }: VitalsTabProps) {
             <HeartPulse className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{latestVitals.heartRate || 'N/A'} BPM</div>
+            <div className="text-2xl font-bold">{latestVitals?.heartRate || 'N/A'} BPM</div>
             <p className="text-xs text-muted-foreground">Beats per minute</p>
           </CardContent>
         </Card>
@@ -130,7 +130,7 @@ export function VitalsTab({ patient, vitals }: VitalsTabProps) {
             <Droplets className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{latestVitals.bloodSugar || 'N/A'}</div>
+            <div className="text-2xl font-bold">{latestVitals?.bloodSugar || 'N/A'}</div>
             <p className="text-xs text-muted-foreground">mg/dL</p>
           </CardContent>
         </Card>
@@ -140,7 +140,7 @@ export function VitalsTab({ patient, vitals }: VitalsTabProps) {
             <Thermometer className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{latestVitals.temperature || 'N/A'} °F</div>
+            <div className="text-2xl font-bold">{latestVitals?.temperature || 'N/A'} °F</div>
             <p className="text-xs text-muted-foreground">Body temperature</p>
           </CardContent>
         </Card>

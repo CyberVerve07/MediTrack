@@ -26,11 +26,13 @@ import { ReportsTab } from './_components/reports-tab';
 import { BillingTab } from './_components/billing-tab';
 import { MealsTab } from './_components/meals-tab';
 
+type PatientDetailPageProps = {
+  params: { id: string };
+};
+
 export default function PatientDetailPage({
   params,
-}: {
-  params: { id: string };
-}) {
+}: PatientDetailPageProps) {
   const patient = getPatientById(params.id);
   if (!patient) {
     notFound();
