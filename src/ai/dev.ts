@@ -1,4 +1,4 @@
-import {config} from 'dotenv';
-config({path: '.env'});
-
-import '@/ai/flows/generate-patient-improvement-notes.ts';
+/**
+ * @fileOverview This file previously imported Genkit flows for development but has been deprecated
+ * after removing AI functionality from the application.
+ */

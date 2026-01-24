@@ -24,7 +24,6 @@ export let patients: Patient[] = [
     admissionDate: subDays(today, 10).toISOString(),
     dischargeDate: null,
     status: 'Admitted',
-    improvementNotes: 'Patient is responding well to treatment. Vitals are stable. Continue monitoring respiratory status.',
     roomNumber: '301A',
     ward: getWard('Female', '1985-05-15'),
   },
@@ -489,15 +488,6 @@ export function updateMeal(mealId: string, newItemIds: string[]) {
         const newItems = foodItems.filter(item => newItemIds.includes(item.id));
         meals[mealIndex].items = newItems;
         return meals[mealIndex];
-    }
-    return null;
-}
-
-export function updatePatientImprovementNotes(patientId: string, notes: string) {
-    const patientIndex = patients.findIndex(p => p.id === patientId);
-    if (patientIndex > -1) {
-        patients[patientIndex].improvementNotes = notes;
-        return patients[patientIndex];
     }
     return null;
 }

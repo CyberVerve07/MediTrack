@@ -13,7 +13,6 @@ export interface Patient {
   admissionDate: string;
   dischargeDate: string | null;
   status: PatientStatus;
-  improvementNotes?: string;
   roomNumber?: string;
   ward: string;
 }
