@@ -58,14 +58,16 @@ export default function PatientDetailPage({
     <div className="flex flex-col gap-6">
       <PatientHeader patient={patient} />
       <Tabs defaultValue="profile">
-        <TabsList className="grid w-full grid-cols-4 md:grid-cols-7">
-          {tabs.map(tab => (
-            <TabsTrigger key={tab.value} value={tab.value}>
-              <tab.icon className="mr-2 h-4 w-4" />
-              {tab.label}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+        <div className="w-full overflow-x-auto pb-2">
+          <TabsList className="w-max">
+            {tabs.map(tab => (
+              <TabsTrigger key={tab.value} value={tab.value}>
+                <tab.icon className="mr-2 h-4 w-4" />
+                {tab.label}
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </div>
         {tabs.map(tab => (
             <TabsContent key={tab.value} value={tab.value} className="mt-6">
                 {tab.component}
