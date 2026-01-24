@@ -35,4 +35,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-module.exports = withGenkit(nextConfig);
+module.exports = nextConfig;
