@@ -22,10 +22,7 @@ import { getPlaceholderImage } from '@/lib/placeholder-images';
 import { differenceInYears } from 'date-fns';
 import { Badge } from '@/components/ui/badge';
 import { Activity, Droplets, Thermometer, HeartPulse, FileText, Pill } from 'lucide-react';
-
-function getPatientAge(dateOfBirth: string) {
-  return differenceInYears(new Date(), new Date(dateOfBirth));
-}
+import { useEffect, useState } from 'react';
 
 const icuPatients = patients.filter(p => p.status === 'ICU');
 
@@ -76,6 +73,18 @@ const RecentReports = ({ patientId }: { patientId: string }) => {
 
 
 export default function ICUPage() {
+    const [ages, setAges] = useState<Record<string, number>>({});
+
+    useEffect(() => {
+        const getPatientAge = (dateOfBirth: string) => differenceInYears(new Date(), new Date(dateOfBirth));
+        
+        const calculatedAges: Record<string, number> = {};
+        for (const patient of icuPatients) {
+            calculatedAges[patient.id] = getPatientAge(patient.dateOfBirth);
+        }
+        setAges(calculatedAges);
+    }, []);
+
   return (
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
@@ -124,7 +133,7 @@ export default function ICUPage() {
                                 >
                                     {patient.name}
                                 </Link>
-                                <p className="text-sm text-muted-foreground">{patient.gender}, {getPatientAge(patient.dateOfBirth)} years</p>
+                                <p className="text-sm text-muted-foreground">{patient.gender}, {ages[patient.id] !== undefined ? `${ages[patient.id]} years` : '...'}</p>
                             </div>
                         </div>
                     </TableCell>

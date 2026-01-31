@@ -6,23 +6,41 @@ import type { Meal, Patient } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Utensils } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 export function TodaysMealsTab() {
-    const todaysMeals = getTodaysMeals();
-    
-    const mealsByPatient = todaysMeals.reduce((acc, meal) => {
-        if (!acc[meal.patientId]) {
-            acc[meal.patientId] = [];
-        }
-        acc[meal.patientId].push(meal);
-        return acc;
-    }, {} as Record<string, Meal[]>);
+    const [patientsWithMeals, setPatientsWithMeals] = useState<{ patient: Patient; meals: Meal[] }[] | null>(null);
 
-    const patientsWithMeals = Object.keys(mealsByPatient).map(patientId => {
-        const patient = getPatientById(patientId);
-        return { patient, meals: mealsByPatient[patientId] };
-    }).filter(item => item.patient);
+    useEffect(() => {
+        const todaysMealsData = getTodaysMeals();
+        
+        const mealsByPatient = todaysMealsData.reduce((acc, meal) => {
+            if (!acc[meal.patientId]) {
+                acc[meal.patientId] = [];
+            }
+            acc[meal.patientId].push(meal);
+            return acc;
+        }, {} as Record<string, Meal[]>);
 
+        const patientsData = Object.keys(mealsByPatient).map(patientId => {
+            const patient = getPatientById(patientId);
+            return { patient, meals: mealsByPatient[patientId] };
+        }).filter((item): item is { patient: Patient; meals: Meal[] } => item.patient !== undefined);
+
+        setPatientsWithMeals(patientsData);
+    }, []);
+
+
+    if (patientsWithMeals === null) {
+        return (
+             <Card>
+                <CardContent className="pt-6 flex flex-col items-center justify-center h-48 gap-4">
+                    <Utensils className="w-16 h-16 text-muted-foreground/50" />
+                    <p className="text-muted-foreground">Loading today's meals...</p>
+                </CardContent>
+             </Card>
+        )
+    }
 
     return (
         <>
@@ -36,8 +54,6 @@ export function TodaysMealsTab() {
             ) : (
                 <div className="grid gap-8 md:grid-cols-2 xl:grid-cols-3">
                     {patientsWithMeals.map(({ patient, meals }, index) => {
-                        if (!patient) return null;
-
                         const mealGradients = [
                           'from-blue-500 to-cyan-400',
                           'from-emerald-500 to-green-400',

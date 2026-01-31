@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
   Table,
@@ -31,10 +31,6 @@ import { NewPatientForm } from './_components/new-patient-form';
 import { DischargePatientDialog } from './_components/discharge-patient-dialog';
 import { cn } from '@/lib/utils';
 
-function getPatientAge(dateOfBirth: string) {
-  return differenceInYears(new Date(), new Date(dateOfBirth));
-}
-
 const getStatusClass = (status: Patient['status']) => {
   switch (status) {
     case 'Admitted':
@@ -54,6 +50,15 @@ export default function PatientsPage() {
   const [selectedPatient, setSelectedPatient] = useState<Patient | undefined>(
     undefined
   );
+  const [ages, setAges] = useState<Record<string, number>>({});
+
+  useEffect(() => {
+      const calculatedAges: Record<string, number> = {};
+      for (const patient of patients) {
+          calculatedAges[patient.id] = differenceInYears(new Date(), new Date(patient.dateOfBirth));
+      }
+      setAges(calculatedAges);
+  }, []);
 
   const handleEdit = (patient: Patient) => {
     setSelectedPatient(patient);
@@ -131,7 +136,7 @@ export default function PatientsPage() {
                       </Badge>
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
-                      {getPatientAge(patient.dateOfBirth)}
+                      {ages[patient.id] ?? '...'}
                     </TableCell>
                     <TableCell className="hidden md:table-cell">
                       {patient.ward}
