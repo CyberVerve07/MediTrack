@@ -54,33 +54,35 @@ export default function DashboardPage() {
 
   return (
     <div className="flex flex-col gap-8">
-      <Card className="relative overflow-hidden border-0 shadow-lg">
+      <Card className="relative overflow-hidden border-0 shadow-xl ring-1 ring-border/50 dark:ring-white/5">
         <Image
           src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3"
           alt="Healthcare background"
           fill
-          className="object-cover"
+          className="object-cover opacity-90 dark:opacity-70"
           data-ai-hint="healthcare background"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/80 to-primary/50" />
-        <CardHeader className="relative flex flex-row items-center gap-4 space-y-0 p-8">
-          <Hospital className="h-12 w-12 text-primary-foreground" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-accent/60 dark:from-primary/80 dark:to-accent/50" />
+        <CardHeader className="relative flex flex-row items-center gap-6 space-y-0 p-8 md:p-10">
+          <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white/20 backdrop-blur-sm">
+            <Hospital className="h-8 w-8 text-primary-foreground" />
+          </div>
           <div>
-            <CardTitle className="text-4xl font-bold text-primary-foreground tracking-tight">
+            <CardTitle className="text-3xl font-bold tracking-tight text-primary-foreground md:text-4xl">
               Welcome to MediTrack Pro
             </CardTitle>
-            <p className="text-primary-foreground/90 mt-2">
-              Your comprehensive hospital management dashboard.
+            <p className="mt-2 max-w-xl text-primary-foreground/90">
+              Your comprehensive hospital management dashboard. Manage patients, schedules, and care in one place.
             </p>
           </div>
         </CardHeader>
       </Card>
-      
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+
+      <div className="grid gap-5 sm:gap-6 md:grid-cols-2 lg:grid-cols-4">
         {stats.map(stat => (
           <Link href={stat.href} key={stat.title}>
-            <Card className="group relative overflow-hidden shadow-md transition-transform duration-300 [transform-style:preserve-3d] hover:shadow-xl hover:[transform:perspective(1000px)_rotateX(4deg)_translateY(-0.25rem)]">
-               <div className={`absolute -right-12 -top-12 h-32 w-32 rounded-full bg-gradient-to-br ${stat.color} opacity-15 transition-all duration-500 group-hover:scale-[10] group-hover:-rotate-12`} />
+            <Card className="group relative overflow-hidden border-border/80 shadow-md transition-all duration-300 hover:shadow-lg hover:-translate-y-0.5 dark:border-white/10 dark:shadow-none dark:ring-1 dark:ring-white/5">
+              <div className={`absolute -right-10 -top-10 h-28 w-28 rounded-full bg-gradient-to-br ${stat.color} opacity-20 transition-transform duration-300 group-hover:scale-110`} />
               <CardHeader className="relative flex flex-row items-center justify-between space-y-0 pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">
                   {stat.title}
@@ -88,46 +90,40 @@ export default function DashboardPage() {
                 <stat.icon className="h-5 w-5 text-muted-foreground" />
               </CardHeader>
               <CardContent className="relative">
-                <div className="text-4xl font-bold">{stat.value}</div>
-                <p className="text-xs text-muted-foreground">{stat.description}</p>
+                <div className="text-3xl font-bold tracking-tight">{stat.value}</div>
+                <p className="mt-1 text-xs text-muted-foreground">{stat.description}</p>
               </CardContent>
             </Card>
           </Link>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <Card className="lg:col-span-2">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <Card className="lg:col-span-2 border-border/80 dark:border-white/10 dark:ring-1 dark:ring-white/5">
           <CardHeader>
             <CardTitle className="font-bold">Recent Activity</CardTitle>
+            <p className="text-sm text-muted-foreground">Latest updates across the hospital</p>
           </CardHeader>
           <CardContent>
-             <div className="flex h-48 items-center justify-center rounded-lg border-2 border-dashed border-muted-foreground/20">
-                 <p className="text-muted-foreground">
-                    Activity feed will be displayed here.
-                </p>
+            <div className="flex h-48 items-center justify-center rounded-xl border-2 border-dashed border-muted-foreground/20 bg-muted/30 dark:bg-muted/10">
+              <p className="text-sm text-muted-foreground">Activity feed will be displayed here.</p>
             </div>
           </CardContent>
         </Card>
-         <Card className="bg-gradient-to-br from-accent to-primary text-accent-foreground">
+        <Card className="border-0 bg-gradient-to-br from-accent to-primary text-accent-foreground shadow-lg dark:from-accent/90 dark:to-primary/80">
           <CardHeader>
-            <CardTitle className="font-bold">Quick Actions</CardTitle>
+            <CardTitle className="font-bold text-white">Quick Actions</CardTitle>
+            <p className="text-sm text-white/80">Shortcuts to key sections</p>
           </CardHeader>
-          <CardContent className="flex flex-col gap-4">
-            <Button variant="secondary" asChild>
-                <Link href="/patients">
-                    View All Patients
-                </Link>
+          <CardContent className="flex flex-col gap-3">
+            <Button variant="secondary" className="w-full justify-start bg-white/20 hover:bg-white/30" asChild>
+              <Link href="/patients">View All Patients</Link>
             </Button>
-            <Button variant="secondary" asChild>
-                 <Link href="/icu">
-                    Go to ICU Monitor
-                </Link>
+            <Button variant="secondary" className="w-full justify-start bg-white/20 hover:bg-white/30" asChild>
+              <Link href="/icu">Go to ICU Monitor</Link>
             </Button>
-             <Button variant="secondary" asChild>
-                 <Link href="/schedule">
-                    Check Schedules
-                </Link>
+            <Button variant="secondary" className="w-full justify-start bg-white/20 hover:bg-white/30" asChild>
+              <Link href="/schedule">Check Schedules</Link>
             </Button>
           </CardContent>
         </Card>

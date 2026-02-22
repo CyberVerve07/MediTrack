@@ -25,6 +25,7 @@ import {
   HeartPulse,
   Building,
   Utensils,
+  Settings,
 } from 'lucide-react';
 import { Logo } from '@/components/icons';
 import {
@@ -35,6 +36,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { ThemeToggle } from '@/components/theme-toggle';
+import { Input } from '@/components/ui/input';
+import { Search } from 'lucide-react';
 
 const menuItems = [
   {
@@ -66,6 +70,11 @@ const menuItems = [
     href: '/meals',
     label: 'Meals',
     icon: Utensils,
+  },
+  {
+    href: '/settings',
+    label: 'Settings',
+    icon: Settings,
   },
 ];
 
@@ -107,10 +116,19 @@ export default function MainLayout({
         </SidebarContent>
       </Sidebar>
       <SidebarInset>
-        <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-background/80 px-4 backdrop-blur-sm md:px-6">
+        <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b border-border/50 bg-background/80 px-4 shadow-sm backdrop-blur-md md:px-6">
           <SidebarTrigger className="md:hidden" />
-          <div className="flex w-full items-center justify-end gap-4">
-            <Button variant="ghost" size="icon">
+          <div className="relative hidden w-full max-w-md flex-1 items-center md:flex">
+            <Search className="absolute left-3 h-4 w-4 text-muted-foreground" />
+            <Input
+              type="search"
+              placeholder="Search patients, schedule..."
+              className="h-9 w-full rounded-full border-border/80 bg-muted/50 pl-9 focus-visible:ring-2"
+            />
+          </div>
+          <div className="flex items-center justify-end gap-1">
+            <ThemeToggle />
+            <Button variant="ghost" size="icon" className="rounded-full">
               <Bell className="h-5 w-5" />
               <span className="sr-only">Toggle notifications</span>
             </Button>
@@ -121,13 +139,15 @@ export default function MainLayout({
                   <span className="sr-only">Toggle user menu</span>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
+              <DropdownMenuContent align="end" className="w-52">
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Settings</DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link href="/settings">Settings</Link>
+                </DropdownMenuItem>
                 <DropdownMenuItem>Support</DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>Logout</DropdownMenuItem>
+                <DropdownMenuItem className="text-destructive focus:text-destructive">Logout</DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
