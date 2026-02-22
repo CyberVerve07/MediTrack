@@ -19,7 +19,6 @@ import { Button } from '@/components/ui/button';
 import {
   LayoutDashboard,
   Users,
-  Bell,
   CircleUser,
   CalendarDays,
   HeartPulse,
@@ -37,6 +36,8 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { NotificationsPanel } from '@/components/notifications-panel';
+import { AppBreadcrumbs } from '@/components/app-breadcrumbs';
 import { Input } from '@/components/ui/input';
 import { Search } from 'lucide-react';
 
@@ -128,10 +129,7 @@ export default function MainLayout({
           </div>
           <div className="flex items-center justify-end gap-1">
             <ThemeToggle />
-            <Button variant="ghost" size="icon" className="rounded-full">
-              <Bell className="h-5 w-5" />
-              <span className="sr-only">Toggle notifications</span>
-            </Button>
+            <NotificationsPanel />
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="secondary" size="icon" className="rounded-full">
@@ -152,7 +150,14 @@ export default function MainLayout({
             </DropdownMenu>
           </div>
         </header>
-        <main className="flex-1 p-4 md:p-6">{children}</main>
+        <main className="flex-1 p-4 md:p-6">
+          <div className="mb-4 md:mb-5">
+            <AppBreadcrumbs />
+          </div>
+          <div className="animate-fade-in opacity-0" style={{ animationDelay: '0.05s', animationFillMode: 'forwards' }}>
+            {children}
+          </div>
+        </main>
       </SidebarInset>
     </SidebarProvider>
   );

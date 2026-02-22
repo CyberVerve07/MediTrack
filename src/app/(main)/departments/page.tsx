@@ -20,17 +20,25 @@ export default function DepartmentsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Departments</h1>
+      <div className="flex items-center justify-between animate-fade-in-down">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Departments</h1>
+          <p className="text-sm text-muted-foreground mt-1">Hospital departments and contacts</p>
+        </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
         {departments.map((dept, index) => (
-          <DepartmentCard
+          <div
             key={dept.id}
-            department={dept}
-            gradient={departmentGradients[index % departmentGradients.length]}
-          />
+            className="opacity-0 animate-fade-in-up"
+            style={{ animationDelay: `${0.05 + index * 0.06}s`, animationFillMode: 'forwards' }}
+          >
+            <DepartmentCard
+              department={dept}
+              gradient={departmentGradients[index % departmentGradients.length]}
+            />
+          </div>
         ))}
       </div>
     </div>
@@ -39,7 +47,7 @@ export default function DepartmentsPage() {
 
 function DepartmentCard({ department, gradient }: { department: Department, gradient: string }) {
     return (
-        <Card className={`relative overflow-hidden text-primary-foreground shadow-lg transition-transform duration-300 [transform-style:preserve-3d] hover:shadow-2xl hover:[transform:perspective(1000px)_rotateX(2deg)_translateY(-0.25rem)] bg-gradient-to-br ${gradient}`}>
+        <Card className={`relative overflow-hidden text-primary-foreground shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 bg-gradient-to-br ${gradient} rounded-xl`}>
             <CardHeader className="relative flex flex-col gap-2 p-6">
                 <div className='flex items-center gap-3'>
                     <Building className="h-8 w-8" />

@@ -87,14 +87,15 @@ export default function ICUPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
+      <div className="animate-fade-in-down">
         <h1 className="text-3xl font-bold tracking-tight">Intensive Care Unit (ICU)</h1>
+        <p className="text-sm text-muted-foreground mt-1">Real-time monitoring of critical patients</p>
       </div>
 
-      <Card>
-        <CardHeader>
+      <Card className="border-border/80 dark:border-white/10 dark:ring-1 dark:ring-white/5 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.08s', animationFillMode: 'forwards' }}>
+        <CardHeader className="border-b border-border/60 bg-muted/30 dark:bg-muted/10">
           <CardTitle>ICU Patient Overview</CardTitle>
-           <CardDescription>Real-time monitoring of critical patients.</CardDescription>
+          <CardDescription>Latest vitals, medications, and reports</CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -111,7 +112,7 @@ export default function ICUPage() {
               {icuPatients.map(patient => {
                 const avatar = getPlaceholderImage(patient.avatarId);
                 return (
-                  <TableRow key={patient.id} className="[&>td]:align-top">
+                  <TableRow key={patient.id} className="[&>td]:align-top hover:bg-muted/50 transition-colors">
                     <TableCell className="font-medium">
                         <div className="flex items-center gap-3">
                             <Avatar className="hidden sm:block">

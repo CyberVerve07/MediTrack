@@ -34,13 +34,13 @@ import { cn } from '@/lib/utils';
 const getStatusClass = (status: Patient['status']) => {
   switch (status) {
     case 'Admitted':
-      return 'bg-blue-500/20 text-blue-700 border-blue-500/20';
+      return 'bg-blue-500/20 text-blue-700 dark:text-blue-300 border-blue-500/30 dark:border-blue-400/30';
     case 'Discharged':
-      return 'bg-gray-500/20 text-gray-700 border-gray-500/20';
+      return 'bg-gray-500/20 text-gray-700 dark:text-gray-300 border-gray-500/30 dark:border-gray-400/30';
     case 'ICU':
-      return 'bg-red-500/20 text-red-700 border-red-500/20';
+      return 'bg-red-500/20 text-red-700 dark:text-red-300 border-red-500/30 dark:border-red-400/30';
     default:
-      return 'bg-gray-500/20 text-gray-700 border-gray-500/20';
+      return 'bg-gray-500/20 text-gray-700 dark:text-gray-300 border-gray-500/30';
   }
 };
 
@@ -67,24 +67,28 @@ export default function PatientsPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold tracking-tight">Patients</h1>
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between animate-fade-in-down">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Patients</h1>
+          <p className="text-sm text-muted-foreground mt-1">View and manage patient roster</p>
+        </div>
         <NewPatientForm>
-          <Button>
+          <Button className="transition-transform hover:scale-[1.02] active:scale-[0.98]">
             <PlusCircle className="mr-2 h-4 w-4" />
             New Patient
           </Button>
         </NewPatientForm>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Patient Roster</CardTitle>
+      <Card className="border-border/80 dark:border-white/10 dark:ring-1 dark:ring-white/5 overflow-hidden animate-fade-in-up opacity-0" style={{ animationDelay: '0.08s', animationFillMode: 'forwards' }}>
+        <CardHeader className="border-b border-border/60 bg-muted/30 dark:bg-muted/10">
+          <CardTitle className="text-lg">Patient Roster</CardTitle>
+          <p className="text-sm text-muted-foreground font-normal">All registered patients with status and ward</p>
         </CardHeader>
-        <CardContent>
+        <CardContent className="p-0">
           <Table>
             <TableHeader>
-              <TableRow>
+              <TableRow className="hover:bg-transparent">
                 <TableHead className="hidden w-[100px] sm:table-cell">
                   <span className="sr-only">Image</span>
                 </TableHead>
@@ -101,10 +105,14 @@ export default function PatientsPage() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {patients.map(patient => {
+              {patients.map((patient, i) => {
                 const avatar = getPlaceholderImage(patient.avatarId);
                 return (
-                  <TableRow key={patient.id}>
+                  <TableRow
+                    key={patient.id}
+                    className="transition-colors opacity-0 animate-fade-in-up hover:bg-muted/50"
+                    style={{ animationDelay: `${0.06 + i * 0.04}s`, animationFillMode: 'forwards' }}
+                  >
                     <TableCell className="hidden sm:table-cell">
                       <Avatar>
                         {avatar && (

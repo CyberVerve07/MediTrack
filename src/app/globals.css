@@ -83,10 +83,18 @@
     @apply scroll-smooth;
   }
   body {
-    @apply bg-background text-foreground transition-colors duration-200;
+    @apply bg-background text-foreground transition-colors duration-200 antialiased;
   }
   ::selection {
     @apply bg-primary/30 text-foreground;
+  }
+  /* Smoother focus for keyboard nav */
+  :focus-visible {
+    @apply outline-none ring-2 ring-ring ring-offset-2 ring-offset-background;
+  }
+  /* Smooth transitions on interactive elements */
+  button, a, [role="button"], input, select, textarea {
+    @apply transition-colors duration-200;
   }
 }
 
@@ -94,4 +102,13 @@
   .text-balance {
     text-wrap: balance;
   }
+  /* Stagger delays for list animations */
+  .stagger-1 { animation-delay: 0.05s; }
+  .stagger-2 { animation-delay: 0.1s; }
+  .stagger-3 { animation-delay: 0.15s; }
+  .stagger-4 { animation-delay: 0.2s; }
+  .stagger-5 { animation-delay: 0.25s; }
+  .stagger-6 { animation-delay: 0.3s; }
+  .stagger-7 { animation-delay: 0.35s; }
+  .stagger-8 { animation-delay: 0.4s; }
 }
