@@ -35,4 +35,4 @@ cd backend-java
 mvn spring-boot:run
 ```
 
-API: **http://localhost:8080**. See `backend-java/README.md` for endpoints and connecting from Next.js.
+
