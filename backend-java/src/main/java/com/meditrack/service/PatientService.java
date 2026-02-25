@@ -2,23 +2,26 @@ package com.meditrack.service;
 
 import com.meditrack.model.DashboardStats;
 import com.meditrack.model.Patient;
+import com.meditrack.repository.PatientRepository;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
 @Service
+@RequiredArgsConstructor
 public class PatientService {
 
-    private final List<Patient> patients = new ArrayList<>();
-    private final AtomicLong idGen = new AtomicLong(1);
+    private final PatientRepository patientRepository;
 
-    public PatientService() {
-        // Seed data matching frontend
-        addSamplePatients();
+    @PostConstruct
+    public void init() {
+        if (patientRepository.count() == 0) {
+            addSamplePatients();
+        }
     }
 
     private void addSamplePatients() {
@@ -35,7 +38,7 @@ public class PatientService {
         p1.setStatus("Admitted");
         p1.setRoomNumber("301A");
         p1.setWard("Women's Ward");
-        patients.add(p1);
+        patientRepository.save(p1);
 
         Patient p2 = new Patient();
         p2.setId("2");
@@ -50,7 +53,7 @@ public class PatientService {
         p2.setStatus("ICU");
         p2.setRoomNumber("ICU-02");
         p2.setWard("ICU");
-        patients.add(p2);
+        patientRepository.save(p2);
 
         Patient p3 = new Patient();
         p3.setId("3");
@@ -65,26 +68,31 @@ public class PatientService {
         p3.setDischargeDate(LocalDate.now().minusDays(2).toString());
         p3.setStatus("Discharged");
         p3.setWard("Women's Ward");
-        patients.add(p3);
+        patientRepository.save(p3);
     }
 
     public List<Patient> findAll() {
-        return new ArrayList<>(patients);
+        return patientRepository.findAll();
     }
 
     public Optional<Patient> findById(String id) {
-        return patients.stream().filter(p -> p.getId().equals(id)).findFirst();
+        return patientRepository.findById(id);
+    }
+
+    public Patient save(Patient patient) {
+        return patientRepository.save(patient);
     }
 
     public DashboardStats getDashboardStats() {
-        long total = patients.size();
-        long admitted = patients.stream()
+        long total = patientRepository.count();
+        List<Patient> all = patientRepository.findAll();
+        long admitted = all.stream()
                 .filter(p -> "Admitted".equals(p.getStatus()) || "ICU".equals(p.getStatus()))
                 .count();
-        long discharged = patients.stream()
+        long discharged = all.stream()
                 .filter(p -> "Discharged".equals(p.getStatus()))
                 .count();
-        long vitalsMonitored = 12L; // placeholder; can be from VitalSignService later
+        long vitalsMonitored = 12L; // placeholder
         return new DashboardStats(total, admitted, vitalsMonitored, discharged);
     }
 }
