@@ -7,14 +7,6 @@ Yeh **MediTrack Pro** ka Java backend hai. REST API provide karta hai taake Next
 - **Java 17** ya usse upar (JDK 17+)
 - **Maven 3.6+**
 
-## Run karne ka tareeka
-
-```bash
-cd backend-java
-mvn spring-boot:run
-```
-
-API base URL: **http://localhost:8080**
 
 ## API Endpoints
 
