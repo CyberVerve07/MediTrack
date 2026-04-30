@@ -25,6 +25,8 @@ import {
   Building,
   Utensils,
   Settings,
+  Package,
+  UserCheck,
 } from 'lucide-react';
 import { Logo } from '@/components/icons';
 import {
@@ -71,6 +73,16 @@ const menuItems = [
     href: '/meals',
     label: 'Meals',
     icon: Utensils,
+  },
+  {
+    href: '/pharmacy',
+    label: 'Pharmacy',
+    icon: Package,
+  },
+  {
+    href: '/staff',
+    label: 'Staff Management',
+    icon: UserCheck,
   },
   {
     href: '/settings',
